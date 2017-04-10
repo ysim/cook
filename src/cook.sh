@@ -17,7 +17,7 @@ cmd_show() {
     if [[ -f $recipe_path ]]; then
         cat "$recipe_path"
     else
-        echo "No recipe exists at the path: ${recipe_path}"
+        die "No recipe exists at the path: ${recipe_path}"
     fi
 }
 
