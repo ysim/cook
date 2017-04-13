@@ -1,0 +1,21 @@
+_cook() {
+    COMPREPLY=()
+    prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
+    prefix="${prefix%/}/"
+    suffix=".md"
+
+    local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
+    local exclusion_pattern="!*.md" # exclude non *.md files
+
+    local items=($(compgen -f -X "${exclusion_pattern}" -- "${prefix}${word}"))
+
+    for item in ${items[@]}; do
+        # Remove the suffix
+        item="${item%$suffix}"
+        # Remove the prefix too
+        COMPREPLY+=("${item#$prefix}")
+    done
+
+}
+
+complete -F _cook cook
