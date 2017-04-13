@@ -33,8 +33,9 @@ func ParseMarkdown(mdBytes []byte) {
 
 func main() {
 	prefix := os.Getenv("COOK_RECIPES_DIR")
+	homeDir := os.Getenv("HOME")
 	if prefix == "" {
-		prefix = "${HOME}/.recipes"
+		prefix = fmt.Sprintf("%s/.recipes", homeDir)
 	}
 	suffix := ".md"
 
