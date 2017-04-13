@@ -8,6 +8,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
+	"os"
 )
 
 type FrontMatter struct {
@@ -31,18 +32,29 @@ func ParseMarkdown(mdBytes []byte) {
 }
 
 func main() {
+	prefix := os.Getenv("COOK_RECIPES_DIR")
+	if prefix == "" {
+		prefix = "${HOME}/.recipes"
+	}
+	suffix := ".md"
+
 	flag.Parse()
 	file := flag.Args()[0]
+	fullFilepath := fmt.Sprintf("%s/%s%s", prefix, file, suffix)
 
-	fileBytes, err := ioutil.ReadFile(file)
+	fileBytes, err := ioutil.ReadFile(fullFilepath)
 	if err != nil {
 		panic(err)
 	}
 
 	splitBytesArray := bytes.Split(fileBytes, []byte("---"))
-	frontMatterBytes := splitBytesArray[1]
-	markdownBytes := splitBytesArray[2]
+	markdownBytes := splitBytesArray[len(splitBytesArray)-1]
 
-	ParseFrontMatter(frontMatterBytes)
+	// No YAML front matter has been defined
+	if len(splitBytesArray) < 2 {
+		frontMatterBytes := splitBytesArray[1]
+		ParseFrontMatter(frontMatterBytes)
+	}
+
 	ParseMarkdown(markdownBytes)
 }
