@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 )
 
 type FrontMatter struct {
@@ -31,7 +32,7 @@ func ParseMarkdown(mdBytes []byte) {
 	fmt.Println(string(output))
 }
 
-func main() {
+func DisplayRecipe(basename string) {
 	prefix := os.Getenv("COOK_RECIPES_DIR")
 	homeDir := os.Getenv("HOME")
 	if prefix == "" {
@@ -39,9 +40,8 @@ func main() {
 	}
 	suffix := ".md"
 
-	flag.Parse()
-	file := flag.Args()[0]
-	fullFilepath := fmt.Sprintf("%s/%s%s", prefix, file, suffix)
+	basenameWithSuffix := fmt.Sprintf("%s%s", basename, suffix)
+	fullFilepath := path.Join(prefix, basenameWithSuffix)
 
 	fileBytes, err := ioutil.ReadFile(fullFilepath)
 	if err != nil {
@@ -58,4 +58,25 @@ func main() {
 	}
 
 	ParseMarkdown(markdownBytes)
+}
+
+func main() {
+	flag.Parse()
+	args := flag.Args()
+
+	switch len(args) {
+	case 0:
+		fmt.Println("Usage:\n\tcook [recipe]\n\tcook search key=value")
+	case 1:
+		DisplayRecipe(args[0])
+	default:
+		// Searching front matter.
+		switch args[0] {
+		case "search":
+			fmt.Println("TODO: implement search of front matter")
+			//SearchFrontMatter(args[1:])
+		default:
+			fmt.Printf("No such search term: '%s'\n", args[0])
+		}
+	}
 }
