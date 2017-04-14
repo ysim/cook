@@ -29,6 +29,7 @@ func ParseFrontMatter(fmBytes []byte) {
 
 func ParseMarkdown(mdBytes []byte) {
 	output := blackfriday.MarkdownBasic(mdBytes)
+	// TODO: render html in the command line
 	fmt.Println(string(output))
 }
 
