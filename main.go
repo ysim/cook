@@ -33,7 +33,7 @@ func ParseMarkdown(mdBytes []byte) {
 	fmt.Println(string(output))
 }
 
-func DisplayRecipe(basename string) {
+func ParseFile(basename string) [][]byte {
 	prefix := os.Getenv("COOK_RECIPES_DIR")
 	homeDir := os.Getenv("HOME")
 	if prefix == "" {
@@ -50,6 +50,11 @@ func DisplayRecipe(basename string) {
 	}
 
 	splitBytesArray := bytes.Split(fileBytes, []byte("---"))
+	return splitBytesArray
+}
+
+func DisplayRecipe(basename string) {
+	splitBytesArray := ParseFile(basename)
 	markdownBytes := splitBytesArray[len(splitBytesArray)-1]
 
 	// No YAML front matter has been defined
