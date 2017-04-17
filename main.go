@@ -33,9 +33,9 @@ func ParseFrontMatter(fmBytes []byte) {
 	fmt.Printf("%v\n", fm)
 }
 
-func ParseMarkdown(mdBytes []byte) {
+func RenderMarkdown(mdBytes []byte) {
+	// TODO: decide how to render the markdown
 	output := blackfriday.MarkdownBasic(mdBytes)
-	// TODO: render html in the command line
 	fmt.Println(string(output))
 }
 
@@ -62,7 +62,7 @@ func DisplayRecipe(basename string) {
 		ParseFrontMatter(frontMatterBytes)
 	}
 
-	ParseMarkdown(markdownBytes)
+	RenderMarkdown(markdownBytes)
 }
 
 func main() {
