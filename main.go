@@ -80,7 +80,12 @@ func main() {
 	case 0:
 		fmt.Println("Usage:\n\tcook [recipe]\n\tcook search key=value")
 	case 1:
-		DisplayRecipe(args[0])
+		switch args[0] {
+		case "search":
+			fmt.Println("Usage: cook search \"key=value\"")
+		default:
+			DisplayRecipe(args[0])
+		}
 	default:
 		// Searching front matter.
 		switch args[0] {
