@@ -24,6 +24,10 @@ type FrontMatter struct {
 	Ingredients []string `yaml:"ingredients"`
 }
 
+func PrintUsageString() {
+	fmt.Printf("Usage:\n\tcook [recipe]\n\tcook search key=value\n")
+}
+
 func ParseFrontMatter(fmBytes []byte) {
 	fm := FrontMatter{}
 	err := yaml.Unmarshal([]byte(fmBytes), &fm)
@@ -78,7 +82,7 @@ func main() {
 
 	switch len(args) {
 	case 0:
-		fmt.Println("Usage:\n\tcook [recipe]\n\tcook search key=value")
+		PrintUsageString()
 	case 1:
 		switch args[0] {
 		case "search":
@@ -93,7 +97,7 @@ func main() {
 			fmt.Println("TODO: implement search of front matter")
 			//SearchFrontMatter(args[1:])
 		default:
-			fmt.Printf("No such search term: '%s'\n", args[0])
+			PrintUsageString()
 		}
 	}
 }
