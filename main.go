@@ -12,6 +12,12 @@ import (
 	"path"
 )
 
+var (
+	homeDir string
+	prefix  string
+	suffix  string
+)
+
 type FrontMatter struct {
 	Name        string   `yaml:"name"`
 	Tags        []string `yaml:"tags"`
@@ -34,13 +40,6 @@ func ParseMarkdown(mdBytes []byte) {
 }
 
 func ParseFile(basename string) [][]byte {
-	prefix := os.Getenv("COOK_RECIPES_DIR")
-	homeDir := os.Getenv("HOME")
-	if prefix == "" {
-		prefix = fmt.Sprintf("%s/.recipes", homeDir)
-	}
-	suffix := ".md"
-
 	basenameWithSuffix := fmt.Sprintf("%s%s", basename, suffix)
 	fullFilepath := path.Join(prefix, basenameWithSuffix)
 
@@ -67,6 +66,13 @@ func DisplayRecipe(basename string) {
 }
 
 func main() {
+	homeDir = os.Getenv("HOME")
+	prefix = os.Getenv("COOK_RECIPES_DIR")
+	if prefix == "" {
+		prefix = fmt.Sprintf("%s/.recipes", homeDir)
+	}
+	suffix = ".md"
+
 	flag.Parse()
 	args := flag.Args()
 
