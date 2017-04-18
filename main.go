@@ -69,6 +69,13 @@ func DisplayRecipe(basename string) {
 	RenderMarkdown(markdownBytes)
 }
 
+func Search(args []string) {
+	// Examples of valid searches:
+	// "ingredients=chicken"
+	// "tag=soup,vegetarian"
+	fmt.Println(args)
+}
+
 func main() {
 	homeDir = os.Getenv("HOME")
 	prefix = os.Getenv("COOK_RECIPES_DIR")
@@ -94,8 +101,7 @@ func main() {
 		// Searching front matter.
 		switch args[0] {
 		case "search":
-			fmt.Println("TODO: implement search of front matter")
-			//SearchFrontMatter(args[1:])
+			Search(args[1:])
 		default:
 			PrintUsageString()
 		}
