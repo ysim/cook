@@ -60,7 +60,8 @@ func DisplayRecipe(basename string) {
 	splitBytesArray := ParseFile(basename)
 	markdownBytes := splitBytesArray[len(splitBytesArray)-1]
 
-	// No YAML front matter has been defined
+	// TODO: How should we handle instances where the user has created a
+	// Markdown file that doesn't conform to the standard format?
 	if len(splitBytesArray) < 2 {
 		frontMatterBytes := splitBytesArray[1]
 		ParseFrontMatter(frontMatterBytes)
