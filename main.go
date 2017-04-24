@@ -82,6 +82,7 @@ func Search(args []string) {
 	keyValue := strings.Split(argString, "=")
 
 	// strings.Split will always return an array of at least one item
+	// (if there are no matches, that item will be an empty string)
 	switch len(keyValue) {
 	case 2:
 		key := keyValue[0]
