@@ -1,6 +1,6 @@
 .PHONY: build
-build: main.go
-	go build -o cook main.go
+build: main.go search.go
+	go build -o cook main.go search.go
 
 .PHONY: install
 install:
