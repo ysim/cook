@@ -6,13 +6,10 @@ import (
 )
 
 func Search(args []string) {
-	// Examples of valid searches:
+	// For now, just allow simple searching, for one value on one field, e.g.
 	// "ingredients=chicken"
 	// "tag=soup,vegetarian"
-
 	argString := strings.Join(args[:], " ")
-
-	// Just allow simple searching for now (i.e. only on one field)
 	keyValue := strings.Split(argString, "=")
 
 	// strings.Split will always return an array of at least one item
@@ -21,7 +18,10 @@ func Search(args []string) {
 	case 2:
 		key := keyValue[0]
 		value := keyValue[1]
-		fmt.Printf("key: %s\nvalue: %s\n", key, value)
+		a := map[string]interface{}{
+			key: []interface{}{value},
+		}
+		return a
 	default:
 		fmt.Println("Invalid search query.")
 	}
