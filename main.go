@@ -18,18 +18,12 @@ var (
 	suffix  string
 )
 
-type FrontMatter struct {
-	Name        string   `yaml:"name"`
-	Tags        []string `yaml:"tags"`
-	Ingredients []string `yaml:"ingredients"`
-}
-
 func PrintUsageString() {
 	fmt.Printf("Usage:\n\tcook [recipe]\n\tcook search key=value\n")
 }
 
 func ParseFrontMatter(fmBytes []byte) {
-	fm := FrontMatter{}
+	var fm interface{}
 	err := yaml.Unmarshal([]byte(fmBytes), &fm)
 	if err != nil {
 		log.Fatal(err)
