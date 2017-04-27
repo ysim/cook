@@ -37,6 +37,7 @@ func RenderMarkdown(mdBytes []byte) {
 	fmt.Println(string(output))
 }
 
+// TODO: Modify to accept the full filepath as the only argument
 func ParseFile(basename string) [][]byte {
 	basenameWithSuffix := fmt.Sprintf("%s%s", basename, suffix)
 	fullFilepath := path.Join(prefix, basenameWithSuffix)
