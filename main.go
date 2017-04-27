@@ -52,16 +52,10 @@ func ParseFile(basename string) [][]byte {
 }
 
 func DisplayRecipe(basename string) {
-	splitBytesArray := ParseFile(basename)
-	markdownBytes := splitBytesArray[len(splitBytesArray)-1]
-
 	// TODO: How should we handle instances where the user has created a
 	// Markdown file that doesn't conform to the standard format?
-	if len(splitBytesArray) < 2 {
-		frontMatterBytes := splitBytesArray[1]
-		ParseFrontMatter(frontMatterBytes)
-	}
-
+	splitBytesArray := ParseFile(basename)
+	markdownBytes := splitBytesArray[len(splitBytesArray)-1]
 	RenderMarkdown(markdownBytes)
 }
 
