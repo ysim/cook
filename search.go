@@ -8,7 +8,6 @@ import (
 func Search(args []string) {
 	// For now, just allow simple searching, for one value on one field, e.g.
 	// "ingredients=chicken"
-	// "tag=soup,vegetarian"
 	argString := strings.Join(args[:], " ")
 	keyValue := strings.Split(argString, "=")
 
