@@ -37,11 +37,7 @@ func RenderMarkdown(mdBytes []byte) {
 	fmt.Println(string(output))
 }
 
-// TODO: Modify to accept the full filepath as the only argument
-func ParseFile(basename string) [][]byte {
-	basenameWithSuffix := fmt.Sprintf("%s%s", basename, suffix)
-	fullFilepath := path.Join(prefix, basenameWithSuffix)
-
+func ParseFile(fullFilepath string) [][]byte {
 	fileBytes, err := ioutil.ReadFile(fullFilepath)
 	if err != nil {
 		panic(err)
@@ -51,10 +47,16 @@ func ParseFile(basename string) [][]byte {
 	return splitBytesArray
 }
 
-func DisplayRecipe(basename string) {
+func GetFullFilepath(basename string) string {
+	basenameWithSuffix := fmt.Sprintf("%s%s", basename, suffix)
+	fullFilepath := path.Join(prefix, basenameWithSuffix)
+	return fullFilepath
+}
+
+func DisplayRecipe(fullFilepath string) {
 	// TODO: How should we handle instances where the user has created a
 	// Markdown file that doesn't conform to the standard format?
-	splitBytesArray := ParseFile(basename)
+	splitBytesArray := ParseFile(fullFilepath)
 	markdownBytes := splitBytesArray[len(splitBytesArray)-1]
 	RenderMarkdown(markdownBytes)
 }
@@ -78,7 +80,9 @@ func main() {
 		case "search":
 			fmt.Println("Usage: cook search \"key=value\"")
 		default:
-			DisplayRecipe(args[0])
+			recipeBasenameWithoutExtension := args[0]
+			recipeFullFilepath := GetFullFilepath(recipeBasenameWithoutExtension)
+			DisplayRecipe(recipeFullFilepath)
 		}
 	default:
 		// Searching front matter.

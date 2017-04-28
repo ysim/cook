@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 )
@@ -23,8 +22,7 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 		if strings.HasPrefix(info.Name(), ".") {
 			return nil
 		}
-		cleanedFilename := strings.Replace(path.Base(fullFilepath), path.Ext(fullFilepath), "", -1)
-		splitBytesArray := ParseFile(cleanedFilename)
+		splitBytesArray := ParseFile(fullFilepath)
 		frontMatter := ParseFrontMatter(splitBytesArray[1])
 
 		for argKey, argValue := range args {
@@ -45,7 +43,7 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 				// Now check for the argValue
 				for _, v := range fileValueArray {
 					if strings.Contains(v, argValue) {
-						fmt.Println(cleanedFilename)
+						fmt.Println(fullFilepath)
 					}
 				}
 			}
