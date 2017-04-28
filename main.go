@@ -22,13 +22,13 @@ func PrintUsageString() {
 	fmt.Printf("Usage:\n\tcook [recipe]\n\tcook search key=value\n")
 }
 
-func ParseFrontMatter(fmBytes []byte) {
-	var fm interface{}
+func ParseFrontMatter(fmBytes []byte) map[string]interface{} {
+	var fm map[string]interface{}
 	err := yaml.Unmarshal([]byte(fmBytes), &fm)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%v\n", fm)
+	return fm
 }
 
 func RenderMarkdown(mdBytes []byte) {
