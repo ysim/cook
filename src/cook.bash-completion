@@ -9,13 +9,13 @@ _cook() {
 
     local items=($(compgen -f -X "${exclusion_pattern}" -- "${prefix}${word}"))
 
+    # Show just the filenames without the extension
     for item in ${items[@]}; do
         # Remove the suffix
         item="${item%$suffix}"
         # Remove the prefix too
         COMPREPLY+=("${item#$prefix}")
     done
-
 }
 
 complete -F _cook cook
