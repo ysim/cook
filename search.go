@@ -32,7 +32,6 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 				return nil
 			} else {
 				// Type assertions
-				fmt.Println(fileValue)
 				// TODO: errors when searching on string fields
 				fileValueCoerced := fileValue.([]interface{})
 				fileValueArray := make([]string, len(fileValueCoerced))
