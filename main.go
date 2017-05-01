@@ -2,14 +2,15 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/russross/blackfriday"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
+	"reflect"
 	"strings"
 )
 
@@ -23,13 +24,33 @@ func PrintUsageString() {
 	fmt.Printf("Usage:\n\tcook [recipe]\n\tcook search key=value\n")
 }
 
-func ParseFrontMatter(fmBytes []byte) map[string]interface{} {
-	var fm map[string]interface{}
-	err := yaml.Unmarshal([]byte(fmBytes), &fm)
+func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
+	// Unmarshal into ...interface{} initially to allow for flexible data
+	// structures
+	var rfm map[string]interface{}
+	err := yaml.Unmarshal([]byte(fmBytes), &rfm)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return fm
+
+	fm := make(map[string][]string, len(rfm))
+	for k, v := range rfm {
+		t := reflect.TypeOf(v).Kind()
+		switch t {
+		case reflect.String:
+			fm[k] = []string{v.(string)}
+		case reflect.Slice:
+			coercedArray := v.([]interface{})
+			vArray := make([]string, len(coercedArray))
+			for _, item := range coercedArray {
+				vArray = append(vArray, item.(string))
+			}
+			fm[k] = vArray
+		default:
+			return nil, errors.New("Type was not string or slice.")
+		}
+	}
+	return fm, nil
 }
 
 func RenderMarkdown(mdBytes []byte) {

@@ -23,7 +23,10 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 			return nil
 		}
 		splitBytesArray := ParseFile(fullFilepath)
-		frontMatter := ParseFrontMatter(splitBytesArray[1])
+		frontMatter, err := ParseFrontMatter(splitBytesArray[1])
+		if err != nil {
+			log.Printf("Unknown type detected in front matter of file '%s'\n", fullFilepath)
+		}
 
 		for argKey, argValue := range args {
 			fileValue, ok := frontMatter[argKey]
@@ -31,16 +34,8 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 				// Key doesn't exist in the front matter.
 				return nil
 			} else {
-				// Type assertions
 				// TODO: errors when searching on string fields
-				fileValueCoerced := fileValue.([]interface{})
-				fileValueArray := make([]string, len(fileValueCoerced))
-				for _, v := range fileValueCoerced {
-					fileValueArray = append(fileValueArray, v.(string))
-				}
-
-				// Now check for the argValue
-				for _, v := range fileValueArray {
+				for _, v := range fileValue {
 					if strings.Contains(v, argValue) {
 						fmt.Println(GetBasenameWithoutExt(fullFilepath))
 					}
