@@ -42,7 +42,7 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 				// Now check for the argValue
 				for _, v := range fileValueArray {
 					if strings.Contains(v, argValue) {
-						fmt.Println(fullFilepath)
+						fmt.Println(GetBasenameWithoutExt(fullFilepath))
 					}
 				}
 			}
