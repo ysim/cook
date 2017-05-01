@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 )
 
 var (
@@ -51,6 +52,14 @@ func GetFullFilepath(basename string) string {
 	basenameWithSuffix := fmt.Sprintf("%s%s", basename, suffix)
 	fullFilepath := path.Join(prefix, basenameWithSuffix)
 	return fullFilepath
+}
+
+func GetBasenameWithoutExt(fullFilepath string) string {
+	return strings.Replace(
+		path.Base(fullFilepath),
+		path.Ext(fullFilepath),
+		"",
+		-1)
 }
 
 func DisplayRecipe(fullFilepath string) {
