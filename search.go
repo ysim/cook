@@ -34,7 +34,6 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 				// Key doesn't exist in the front matter.
 				return nil
 			} else {
-				// TODO: errors when searching on string fields
 				for _, v := range fileValue {
 					if strings.Contains(v, argValue) {
 						fmt.Println(GetBasenameWithoutExt(fullFilepath))
