@@ -33,6 +33,8 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 		return nil, err
 	}
 
+	// Now make a type assertion into map[string][]string to make querying
+	// easier
 	fm := make(map[string][]string, len(rfm))
 	for k, v := range rfm {
 		t := reflect.TypeOf(v).Kind()
