@@ -61,14 +61,20 @@ func RenderMarkdown(mdBytes []byte) {
 	fmt.Println(string(output))
 }
 
-func ParseFile(fullFilepath string) [][]byte {
+func ParseFile(fullFilepath string) ([][]byte, error) {
 	fileBytes, err := ioutil.ReadFile(fullFilepath)
 	if err != nil {
 		panic(err)
 	}
 
 	splitBytesArray := bytes.Split(fileBytes, []byte("---"))
-	return splitBytesArray
+	arrayLength := len(splitBytesArray)
+	switch {
+	case arrayLength > 2:
+		return splitBytesArray, nil
+	default:
+		return nil, fmt.Errorf("This file could not be parsed: %s", fullFilepath)
+	}
 }
 
 func GetFullFilepath(basename string) string {
@@ -86,10 +92,11 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 }
 
 func DisplayRecipe(fullFilepath string) {
-	// TODO: How should we handle instances where the user has created a
-	// Markdown file that doesn't conform to the standard format?
-	splitBytesArray := ParseFile(fullFilepath)
-	markdownBytes := splitBytesArray[len(splitBytesArray)-1]
+	splitBytesArray, err := ParseFile(fullFilepath)
+	if err != nil {
+		return
+	}
+	markdownBytes := splitBytesArray[2]
 	RenderMarkdown(markdownBytes)
 }
 
