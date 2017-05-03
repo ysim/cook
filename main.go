@@ -20,6 +20,11 @@ var (
 	suffix  string
 )
 
+type RecipeFile struct {
+	FrontMatter []byte
+	Markdown    []byte
+}
+
 func PrintUsageString() {
 	fmt.Printf("Usage:\n\tcook [recipe]\n\tcook search key=value\n")
 }
@@ -61,27 +66,33 @@ func RenderMarkdown(mdBytes []byte) {
 	fmt.Println(string(output))
 }
 
-func ParseFile(fullFilepath string) ([][]byte, error) {
+func ParseFile(fullFilepath string) (RecipeFile, error) {
+	var recipeFile RecipeFile
 	errorMsg := fmt.Sprintf("This file could not be parsed: %s", fullFilepath)
 	fileBytes, err := ioutil.ReadFile(fullFilepath)
 	if err != nil {
-		panic(err)
+		return recipeFile, err
 	}
 
 	splitBytesArray := bytes.Split(fileBytes, []byte("---"))
 
 	switch {
 	case len(splitBytesArray) > 2:
+		assumedFrontMatter := splitBytesArray[1]
 		assumedMarkdown := splitBytesArray[2]
 
 		// Even if there is only YAML front matter defined with no Markdown
 		// content, len(assumedMarkdown) will still be 1 due to a newline
 		if len(assumedMarkdown) < 2 {
-			return nil, fmt.Errorf(errorMsg)
+			return recipeFile, fmt.Errorf(errorMsg)
 		}
-		return splitBytesArray, nil
+		recipeFile := RecipeFile{
+			FrontMatter: assumedFrontMatter,
+			Markdown:    assumedMarkdown,
+		}
+		return recipeFile, nil
 	default:
-		return nil, fmt.Errorf(errorMsg)
+		return recipeFile, fmt.Errorf(errorMsg)
 	}
 }
 
@@ -100,13 +111,12 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 }
 
 func DisplayRecipe(fullFilepath string) {
-	splitBytesArray, err := ParseFile(fullFilepath)
+	recipeFile, err := ParseFile(fullFilepath)
 	if err != nil {
 		fmt.Println("This file could not be shown due to invalid formatting.")
 		os.Exit(1)
 	}
-	markdownBytes := splitBytesArray[2]
-	RenderMarkdown(markdownBytes)
+	RenderMarkdown(recipeFile.Markdown)
 }
 
 func main() {

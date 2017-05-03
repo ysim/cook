@@ -22,11 +22,11 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 		if strings.HasPrefix(info.Name(), ".") {
 			return nil
 		}
-		splitBytesArray, err := ParseFile(fullFilepath)
+		recipeFile, err := ParseFile(fullFilepath)
 		if err != nil {
 			return nil
 		}
-		frontMatter, err := ParseFrontMatter(splitBytesArray[1])
+		frontMatter, err := ParseFrontMatter(recipeFile.FrontMatter)
 		if err != nil {
 			log.Printf("Unknown type detected in front matter of file '%s'\n", fullFilepath)
 		}
