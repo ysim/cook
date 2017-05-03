@@ -62,18 +62,26 @@ func RenderMarkdown(mdBytes []byte) {
 }
 
 func ParseFile(fullFilepath string) ([][]byte, error) {
+	errorMsg := fmt.Sprintf("This file could not be parsed: %s", fullFilepath)
 	fileBytes, err := ioutil.ReadFile(fullFilepath)
 	if err != nil {
 		panic(err)
 	}
 
 	splitBytesArray := bytes.Split(fileBytes, []byte("---"))
-	arrayLength := len(splitBytesArray)
+
 	switch {
-	case arrayLength > 2:
+	case len(splitBytesArray) > 2:
+		assumedMarkdown := splitBytesArray[2]
+
+		// Even if there is only YAML front matter defined with no Markdown
+		// content, len(assumedMarkdown) will still be 1 due to a newline
+		if len(assumedMarkdown) < 2 {
+			return nil, fmt.Errorf(errorMsg)
+		}
 		return splitBytesArray, nil
 	default:
-		return nil, fmt.Errorf("This file could not be parsed: %s", fullFilepath)
+		return nil, fmt.Errorf(errorMsg)
 	}
 }
 
@@ -94,7 +102,8 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 func DisplayRecipe(fullFilepath string) {
 	splitBytesArray, err := ParseFile(fullFilepath)
 	if err != nil {
-		return
+		fmt.Println("This file could not be shown due to invalid formatting.")
+		os.Exit(1)
 	}
 	markdownBytes := splitBytesArray[2]
 	RenderMarkdown(markdownBytes)
