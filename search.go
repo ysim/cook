@@ -10,6 +10,7 @@ import (
 )
 
 const (
+	q_separator = ":"
 	q_or        = ","
 )
 
@@ -73,9 +74,10 @@ func ParseSearchQuery(args []string) (map[string][]string, error) {
 	for _, f := range fields {
 		// strings.Split will always return an array of at least one item
 		// (if there are no matches, that item will be an empty string)
-		splitField := strings.Split(f, ":")
+		splitField := strings.Split(f, q_separator)
 		if len(splitField) != 2 {
-			return nil, errors.New("Exactly one ':' is required per whitespace-delimited argument")
+			errMsg := fmt.Sprintf("Exactly one '%s' is required per whitespace-delimited argument", q_separator)
+			return nil, errors.New(errMsg)
 		}
 
 		key, value := splitField[0], splitField[1]
