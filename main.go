@@ -78,6 +78,7 @@ func ParseFile(fullFilepath string) (RecipeFile, error) {
 
 	switch {
 	case len(splitBytesArray) > 2:
+		// If formatted correctly, splitBytesArray[0] is likely an empty string
 		assumedFrontMatter := splitBytesArray[1]
 		assumedMarkdown := splitBytesArray[2]
 
