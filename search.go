@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	orOperator = ","
+	q_or        = ","
 )
 
 func SearchFile(args map[string][]string) filepath.WalkFunc {
@@ -79,7 +79,7 @@ func ParseSearchQuery(args []string) (map[string][]string, error) {
 		}
 
 		key, value := splitField[0], splitField[1]
-		valueArray := strings.Split(value, orOperator)
+		valueArray := strings.Split(value, q_or)
 		q[key] = valueArray
 	}
 	return q, nil
