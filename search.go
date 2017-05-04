@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -8,7 +9,11 @@ import (
 	"strings"
 )
 
-func SearchFile(args map[string]string) filepath.WalkFunc {
+const (
+	orOperator = ","
+)
+
+func SearchFile(args map[string][]string) filepath.WalkFunc {
 	return func(fullFilepath string, info os.FileInfo, err error) error {
 		if err != nil {
 			log.Print(err)
@@ -31,41 +36,64 @@ func SearchFile(args map[string]string) filepath.WalkFunc {
 			log.Printf("Unknown type detected in front matter of file '%s'\n", fullFilepath)
 		}
 
-		for argKey, argValue := range args {
-			fileValue, ok := frontMatter[argKey]
+		var showFile bool // zero value is false
+		for argKey, argValueArray := range args {
+			// ok is set to true if the key exists, false if not
+			fileValueArray, ok := frontMatter[argKey]
+
 			if !ok {
-				// Key doesn't exist in the front matter.
 				return nil
 			} else {
-				for _, v := range fileValue {
-					if strings.Contains(v, argValue) {
-						fmt.Println(GetBasenameWithoutExt(fullFilepath))
+				for _, argValue := range argValueArray {
+					for _, fileValue := range fileValueArray {
+						if strings.Contains(fileValue, argValue) {
+							showFile = true
+							break
+						}
 					}
 				}
 			}
+		}
+		if showFile {
+			fmt.Println(GetBasenameWithoutExt(fullFilepath))
 		}
 		return nil
 	}
 }
 
-func Search(args []string) {
-	// For now, just allow simple searching, for one value on one field, e.g.
-	// "ingredients=chicken"
-	argString := strings.Join(args[:], " ")
-	keyValue := strings.Split(argString, ":")
+func ParseSearchQuery(args []string) (map[string][]string, error) {
+	q := make(map[string][]string)
 
-	// strings.Split will always return an array of at least one item
-	// (if there are no matches, that item will be an empty string)
-	switch len(keyValue) {
-	case 2:
-		key := keyValue[0]
-		value := keyValue[1]
-		a := map[string]string{key: value}
-		err := filepath.Walk(prefix, SearchFile(a))
-		if err != nil {
-			log.Fatal(err)
+	// Consolidate all arguments
+	argString := strings.Join(args[:], " ")
+
+	// Now split into keys
+	fields := strings.Fields(argString)
+
+	for _, f := range fields {
+		// strings.Split will always return an array of at least one item
+		// (if there are no matches, that item will be an empty string)
+		splitField := strings.Split(f, ":")
+		if len(splitField) != 2 {
+			return nil, errors.New("Exactly one ':' is required per whitespace-delimited argument")
 		}
-	default:
-		fmt.Println("Invalid search query.")
+
+		key, value := splitField[0], splitField[1]
+		valueArray := strings.Split(value, orOperator)
+		q[key] = valueArray
+	}
+	return q, nil
+}
+
+func Search(args []string) {
+	parsedQuery, parseErr := ParseSearchQuery(args)
+	if parseErr != nil {
+		fmt.Printf("Invalid search query: %s\n", parseErr.Error())
+		os.Exit(1)
+	}
+
+	searchErr := filepath.Walk(prefix, SearchFile(parsedQuery))
+	if searchErr != nil {
+		log.Fatal(searchErr)
 	}
 }
