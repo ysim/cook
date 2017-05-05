@@ -37,7 +37,7 @@ func SearchFile(args map[string][]string) filepath.WalkFunc {
 			log.Printf("Unknown type detected in front matter of file '%s'\n", fullFilepath)
 		}
 
-		var showFile bool // zero value is false
+		showFile := false
 		for argKey, argValueArray := range args {
 			// ok is set to true if the key exists, false if not
 			fileValueArray, ok := frontMatter[argKey]
