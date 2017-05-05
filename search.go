@@ -42,9 +42,10 @@ func SearchFile(args map[string][]string) filepath.WalkFunc {
 			// ok is set to true if the key exists, false if not
 			fileValueArray, ok := frontMatter[argKey]
 
-			if !ok {
+			switch ok {
+			case false:
 				return nil
-			} else {
+			case true:
 				for _, argValue := range argValueArray {
 					for _, fileValue := range fileValueArray {
 						if strings.Contains(fileValue, argValue) {
