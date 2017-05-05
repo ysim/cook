@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	q_separator = ":"
 	q_or        = ","
+	q_kv_separator = ":"
 )
 
 func SearchFile(args map[string][]string) filepath.WalkFunc {
@@ -75,9 +75,9 @@ func ParseSearchQuery(args []string) (map[string][]string, error) {
 	for _, f := range fields {
 		// strings.Split will always return an array of at least one item
 		// (if there are no matches, that item will be an empty string)
-		splitField := strings.Split(f, q_separator)
+		splitField := strings.Split(f, q_kv_separator)
 		if len(splitField) != 2 {
-			errMsg := fmt.Sprintf("Exactly one '%s' is required per whitespace-delimited argument", q_separator)
+			errMsg := fmt.Sprintf("Exactly one '%s' is required per whitespace-delimited argument", q_kv_separator)
 			return nil, errors.New(errMsg)
 		}
 
