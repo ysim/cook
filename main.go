@@ -114,7 +114,7 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 func DisplayRecipe(fullFilepath string) {
 	recipeFile, err := ParseFile(fullFilepath)
 	if err != nil {
-		fmt.Println("This file could not be shown due to invalid formatting.")
+		fmt.Println(err.Error())
 		os.Exit(1)
 	}
 	RenderMarkdown(recipeFile.Markdown)
