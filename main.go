@@ -120,14 +120,16 @@ func DisplayRecipe(fullFilepath string) {
 	RenderMarkdown(recipeFile.Markdown)
 }
 
-func main() {
+func init() {
 	homeDir = os.Getenv("HOME")
 	prefix = os.Getenv("COOK_RECIPES_DIR")
 	if prefix == "" {
 		prefix = fmt.Sprintf("%s/.recipes", homeDir)
 	}
 	suffix = ".md"
+}
 
+func main() {
 	flag.Parse()
 	args := flag.Args()
 
