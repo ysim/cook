@@ -14,6 +14,17 @@ const (
 	q_value_or     = ","
 )
 
+func CleanFields(a []string) []string {
+	var cleanedSlice []string
+	for _, element := range a {
+		element = strings.TrimSpace(element)
+		if len(element) > 0 {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
 func SearchFile(args map[string][]string) filepath.WalkFunc {
 	return func(fullFilepath string, info os.FileInfo, err error) error {
 		if err != nil {
