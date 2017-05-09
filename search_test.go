@@ -5,6 +5,31 @@ import (
 	"testing"
 )
 
+func TestCleanFields(t *testing.T) {
+	tables := []struct {
+		Arg            []string
+		ExpectedResult []string
+	}{
+		{
+			[]string{"zucchini", "eggplant", "peppers"},
+			[]string{"zucchini", "eggplant", "peppers"},
+		},
+		{
+			[]string{"minced beef ", "  carrots", " potatoes "},
+			[]string{"minced beef", "carrots", "potatoes"},
+		},
+		{
+			[]string{"", " ", "		", "  ", "avocadoes"},
+			[]string{"avocadoes"},
+		},
+	}
+
+	for _, table := range tables {
+		actualResult := CleanFields(table.Arg)
+		assert.Equal(t, table.ExpectedResult, actualResult)
+	}
+}
+
 func TestParseSearchQuery(t *testing.T) {
 	tables := []struct {
 		Args           []string
