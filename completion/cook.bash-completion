@@ -1,10 +1,15 @@
+# completion file for cook
+# in pass, the file is stored at:
+# /usr/local/opt/pass/etc/bash_completion.d/pass
+
 _cook() {
     COMPREPLY=()
     prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
     prefix="${prefix%/}/"
-    suffix=".md"
+    suffix="${COOK_RECIPES_EXT:-.md}"
 
     local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
+    local line="${COMP_LINE}" # entire command line being completed
     local exclusion_pattern="!*.md" # exclude non *.md files
 
     local items=($(compgen -f -X "${exclusion_pattern}" -- "${prefix}${word}"))
