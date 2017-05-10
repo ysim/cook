@@ -94,7 +94,7 @@ func ParseSearchQuery(args []string) (map[string][]string, error) {
 
 		key, value := splitField[0], splitField[1]
 		valueArray := strings.Split(value, q_value_or)
-		q[key] = valueArray
+		q[key] = CleanFields(valueArray)
 	}
 	return q, nil
 }
