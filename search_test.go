@@ -26,6 +26,13 @@ func TestMatch(t *testing.T) {
 			map[string][]string{"ingredients": []string{"carrots", "salmon"}},
 			true,
 		},
+		{
+			map[string]Constraint{
+				"texture": Constraint{[]string{"crunchy"}, "or"},
+			},
+			map[string][]string{"texture": []string{"creamy"}},
+			false,
+		},
 	}
 
 	for _, table := range tables {
