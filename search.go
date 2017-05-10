@@ -80,10 +80,12 @@ func ParseSearchQuery(args []string) (map[string][]string, error) {
 	// Consolidate all arguments
 	argString := strings.Join(args[:], " ")
 
-	// Now split into keys
+	// TODO: Replace with custom function once multifield search is figured out
+	// Now split into fields
 	fields := strings.Fields(argString)
 
-	for _, f := range fields {
+	// TODO: Remove the slice [:1] once multifield search is figured out
+	for _, f := range fields[:1] {
 		// strings.Split will always return an array of at least one item
 		// (if there are no matches, that item will be an empty string)
 		splitField := strings.Split(f, q_kv_separator)
