@@ -126,7 +126,10 @@ func init() {
 	if prefix == "" {
 		prefix = fmt.Sprintf("%s/.recipes", homeDir)
 	}
-	suffix = ".md"
+	suffix = os.Getenv("COOK_RECIPES_EXT")
+	if suffix == "" {
+		suffix = ".md"
+	}
 }
 
 func main() {

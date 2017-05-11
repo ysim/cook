@@ -10,7 +10,7 @@ _cook() {
 
     local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
     local line="${COMP_LINE}" # entire command line being completed
-    local exclusion_pattern="!*.md" # exclude non *.md files
+    local exclusion_pattern="!*${suffix}" # exclude files without the right suffix
 
     local items=($(compgen -f -X "${exclusion_pattern}" -- "${prefix}${word}"))
 
