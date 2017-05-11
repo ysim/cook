@@ -12,7 +12,7 @@ import (
 const (
 	q_kv_separator = ":"
 	q_value_or     = ","
-	q_value_and    = "&"
+	q_value_and    = "+"
 )
 
 // For now, we will only allow positive matches (i.e. for matches and not
@@ -33,6 +33,22 @@ func CleanFields(a []string) []string {
 	return cleanedSlice
 }
 
+func ProcessValueAnd(queryTerms []string, fileTerms []string) bool {
+	for _, queryTerm := range queryTerms {
+		match := false
+		for _, fileTerm := range fileTerms {
+			if strings.Contains(fileTerm, queryTerm) {
+				match = true
+			}
+		}
+		if !match {
+			return false
+		}
+	}
+	return true
+}
+
+// TODO: This could be made more efficient
 func ProcessValueOr(queryTerms []string, fileTerms []string) bool {
 	for _, queryTerm := range queryTerms {
 		for _, fileTerm := range fileTerms {
@@ -53,11 +69,13 @@ func Match(queryArgs map[string]Constraint, fileArgs map[string][]string) bool {
 		fileValueArray, ok := fileArgs[queryKey]
 
 		if ok {
-			if queryValue.Relationship == "or" {
+			switch queryValue.Relationship {
+			case "or":
 				return ProcessValueOr(queryValue.Terms, fileValueArray)
+			case "and":
+				return ProcessValueAnd(queryValue.Terms, fileValueArray)
 			}
 		}
-
 	}
 	return false
 }
