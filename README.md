@@ -32,3 +32,28 @@ within `~/.bash_completion.d/`:
 1. Symlink the bash completion script for cook to `~/.bash_completion.d/`:
 
         ln -s "$(pwd)/completion/cook.bash-completion" ~/.bash_completion.d/
+
+### Usage
+
+1. In a directory at `$HOME/.recipes`, create some recipes files with the
+`.md` (Markdown) extension, and with YAML front matter block. The file contents
+should look something like this:
+
+    ---
+    name: roasted cauliflower soup
+    tags: [soup, vegetarian]
+    ingredients: [cauliflower]
+    ---
+
+    ### INGREDIENTS
+
+    * 1 cauliflower, cut into florets
+    * ...rest of ingredients...
+
+    ### INSTRUCTIONS
+
+    1. Step one
+
+    1. Step two
+
+    1. ...rest of the steps...
