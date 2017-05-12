@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for bash_completion_file in ~/.bash_completion.d/* ; do
+    . $bash_completion_file
+done
