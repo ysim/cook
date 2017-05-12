@@ -15,9 +15,10 @@ import (
 )
 
 var (
-	homeDir string
-	prefix  string
-	suffix  string
+	testArgs []string // Set this to test command line args
+	homeDir  string
+	prefix   string
+	suffix   string
 )
 
 type RecipeFile struct {
@@ -133,8 +134,14 @@ func init() {
 }
 
 func main() {
-	flag.Parse()
-	args := flag.Args()
+	var args []string
+	switch testArgs {
+	case nil:
+		flag.Parse()
+		args = flag.Args()
+	default:
+		args = testArgs
+	}
 
 	switch len(args) {
 	case 0:
