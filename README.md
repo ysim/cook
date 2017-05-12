@@ -57,3 +57,12 @@ should look something like this:
     1. Step two
 
     1. ...rest of the steps...
+
+### Customizations
+
+* Recipe directory location (default `$HOME/.recipes`): to change this, export
+`COOK_RECIPES_DIR`
+
+* Recipe extension (default `.md`): to change this, export `COOK_RECIPES_EXT`
+
+More to come!
