@@ -1,14 +1,12 @@
 # completion file for cook
 
-_cook() {
-    COMPREPLY=()
+_cook_complete_filenames() {
     prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
     prefix="${prefix%/}/"
     suffix="${COOK_RECIPES_EXT:-.md}"
 
-    local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
-    local line="${COMP_LINE}" # entire command line being completed
-    local exclusion_pattern="!*${suffix}" # exclude files without the right suffix
+    # exclude files without the right suffix
+    local exclusion_pattern="!*${suffix}"
 
     local items=($(compgen -f -X "${exclusion_pattern}" -- "${prefix}${word}"))
 
@@ -19,6 +17,30 @@ _cook() {
         # Remove the prefix too
         COMPREPLY+=("${item#$prefix}")
     done
+}
+
+_cook() {
+    COMPREPLY=()
+
+    local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
+    local line="${COMP_LINE}" # entire command line being completed
+    local commands="search help"
+
+    # If two words have already been entered...
+    if [[ "${COMP_CWORD}" -gt 1 ]]; then
+        case "${COMP_WORDS[1]}" in
+            help)
+                return
+                ;;
+            search)
+                # TODO: Autocomplete with field names once there is indexing
+                return
+                ;;
+        esac
+    else
+        COMPREPLY+=($(compgen -W "${commands}" -- "${word}"))
+        _cook_complete_filenames
+    fi
 }
 
 complete -F _cook cook
