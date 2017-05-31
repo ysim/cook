@@ -39,24 +39,24 @@ within `~/.bash_completion.d/`:
 `.md` (Markdown) extension, and with YAML front matter block. The file contents
 should look something like this:
 
-    ---
-    name: roasted cauliflower soup
-    tags: [soup, vegetarian]
-    ingredients: [cauliflower]
-    ---
+        ---
+        name: roasted cauliflower soup
+        tags: [soup, vegetarian]
+        ingredients: [cauliflower]
+        ---
 
-    ### INGREDIENTS
+        ### INGREDIENTS
 
-    * 1 cauliflower, cut into florets
-    * ...rest of ingredients...
+        * 1 cauliflower, cut into florets
+        * ...rest of ingredients...
 
-    ### INSTRUCTIONS
+        ### INSTRUCTIONS
 
-    1. Step one
+        1. Step one
 
-    1. Step two
+        1. Step two
 
-    1. ...rest of the steps...
+        1. ...rest of the steps...
 
 ### Customizations
 
