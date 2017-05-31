@@ -35,7 +35,9 @@ within `~/.bash_completion.d/`:
 
 ### Usage
 
-1. In a directory at `$HOME/.recipes`, create some recipes files with the
+##### Create/port recipe files
+
+In a directory at `$HOME/.recipes`, create some recipes files with the
 `.md` (Markdown) extension, and with YAML front matter block. The file contents
 should look something like this:
 
@@ -57,6 +59,16 @@ should look something like this:
         1. Step two
 
         1. ...rest of the steps...
+
+##### View a recipe
+
+To view a single recipe, run `cook [recipe name]`. Take advantage of the bash
+completion available. For now, this will print the recipe HTML to the screen
+(more features will be added soon to either render this markup in the command
+line or to open it in a webpage). Feel free to make use of
+[lynx](http://lynx.browser.org/) to view recipes for now, e.g.
+
+    cook chicken-pot-pie | lynx -stdin
 
 ### Customizations
 
