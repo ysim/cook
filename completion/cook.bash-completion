@@ -1,6 +1,4 @@
 # completion file for cook
-# in pass, the file is stored at:
-# /usr/local/opt/pass/etc/bash_completion.d/pass
 
 _cook() {
     COMPREPLY=()
