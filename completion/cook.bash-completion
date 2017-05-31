@@ -1,4 +1,5 @@
 # completion file for cook
+# No need for a shebang line as this is meant to be sourced, not executed.
 
 _cook_complete_filenames() {
     prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
