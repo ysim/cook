@@ -27,7 +27,7 @@ This program was inspired by Jason A. Donenfeld's
 1. Copy this script to `~/.bash_completion` to source all the scripts
 within `~/.bash_completion.d/`:
 
-        cp `completion/bash_completion` ~/.bash_completion
+        cp completion/bash_completion ~/.bash_completion
 
 1. Symlink the bash completion script for cook to `~/.bash_completion.d/`:
 
