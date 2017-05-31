@@ -9,6 +9,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path"
 	"reflect"
 	"strings"
@@ -121,6 +122,16 @@ func DisplayRecipe(fullFilepath string) {
 	RenderMarkdown(recipeFile.Markdown)
 }
 
+func EditRecipe(fullFilepath string) {
+	cmd := exec.Command("vim", fullFilepath)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 func init() {
 	homeDir = os.Getenv("HOME")
 	prefix = os.Getenv("COOK_RECIPES_DIR")
@@ -151,15 +162,14 @@ func main() {
 		case "search":
 			fmt.Println("Usage: cook search \"key=value\"")
 		default:
-			recipeBasenameWithoutExtension := args[0]
-			recipeFullFilepath := GetFullFilepath(recipeBasenameWithoutExtension)
-			DisplayRecipe(recipeFullFilepath)
+			DisplayRecipe(GetFullFilepath(args[0]))
 		}
 	default:
-		// Searching front matter.
 		switch args[0] {
 		case "search":
 			Search(args[1:])
+		case "edit":
+			EditRecipe(GetFullFilepath(args[1]))
 		default:
 			PrintUsageString()
 		}

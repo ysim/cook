@@ -25,11 +25,14 @@ _cook() {
 
     local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
     local line="${COMP_LINE}" # entire command line being completed
-    local commands="search help"
+    local commands="edit search help"
 
     # If two words have already been entered...
     if [[ "${COMP_CWORD}" -gt 1 ]]; then
         case "${COMP_WORDS[1]}" in
+            edit)
+                _cook_complete_filenames
+                ;;
             help)
                 return
                 ;;
