@@ -88,5 +88,3 @@ More powerful search syntax coming soon!
 `COOK_RECIPES_DIR`
 
 * Recipe extension (default `.md`): to change this, export `COOK_RECIPES_EXT`
-
-More to come!
