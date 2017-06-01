@@ -77,7 +77,7 @@ The following search syntaxes are supported:
 * `cook search tags:soup`: show all recipes with the tag `soup`
 * `cook search tags:soup,stew`: show all recipes with the tag `soup` OR
 `stew`
-* `cook search tags:soup&vegetarian`: show all recipes with the tag `soup`
+* `cook search tags:soup+vegetarian`: show all recipes with the tag `soup`
 AND `vegetarian`
 
 More powerful search syntax coming soon!
