@@ -55,7 +55,8 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 			for _, item := range coercedArray {
 				vArray = append(vArray, item.(string))
 			}
-			fm[k] = vArray
+			// Get a new slice with the empty strings removed
+			fm[k] = CleanFields(vArray)
 		default:
 			return nil, errors.New("Type was not string or slice.")
 		}
