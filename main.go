@@ -88,6 +88,9 @@ func ParseFile(fullFilepath string) (RecipeFile, error) {
 	case len(splitBytesArray) > 2:
 		// If formatted correctly, splitBytesArray[0] is likely an empty string
 		assumedFrontMatter := splitBytesArray[1]
+
+		// TODO: This should join splitBytesArray[2:] as Markdown allows for --- to
+		// denote a horizontal rule
 		assumedMarkdown := splitBytesArray[2]
 
 		// Even if there is only YAML front matter defined with no Markdown
