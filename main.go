@@ -76,7 +76,8 @@ func RenderMarkdown(mdBytes []byte) {
 
 func ParseFile(fullFilepath string) (RecipeFile, error) {
 	var recipeFile RecipeFile
-	errorMsg := fmt.Sprintf("This file could not be parsed: %s", fullFilepath)
+	var errorMsg string
+
 	fileBytes, err := ioutil.ReadFile(fullFilepath)
 	if err != nil {
 		return recipeFile, err
@@ -96,6 +97,7 @@ func ParseFile(fullFilepath string) (RecipeFile, error) {
 		// Even if there is only YAML front matter defined with no Markdown
 		// content, len(assumedMarkdown) will still be 1 due to a newline
 		if len(assumedMarkdown) < 2 {
+			errorMsg = "No Markdown has been defined in this file."
 			return recipeFile, fmt.Errorf(errorMsg)
 		}
 		recipeFile := RecipeFile{
@@ -104,6 +106,7 @@ func ParseFile(fullFilepath string) (RecipeFile, error) {
 		}
 		return recipeFile, nil
 	default:
+		errorMsg = "Recipe files must consist of a YAML front matter block and non-blank Markdown."
 		return recipeFile, fmt.Errorf(errorMsg)
 	}
 }
