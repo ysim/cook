@@ -80,20 +80,31 @@ func Match(queryArgs map[string]Constraint, fileArgs map[string][]string) bool {
 	return false
 }
 
+// Implements some common rules for filepath.Walkfunc for which kinds of
+// files will be skipped.
+func ShouldSkipFile(info os.FileInfo, err error) bool {
+	if err != nil {
+		log.Print(err)
+		return true
+	}
+	// Don't descend into directories for now
+	if info.IsDir() {
+		return true
+	}
+	// Ignore hidden files
+	if strings.HasPrefix(info.Name(), ".") {
+		return true
+	}
+	return false
+}
+
 func SearchFile(args map[string]Constraint) filepath.WalkFunc {
 	return func(fullFilepath string, info os.FileInfo, err error) error {
-		if err != nil {
-			log.Print(err)
+		shouldSkip := ShouldSkipFile(info, err)
+		if shouldSkip {
 			return nil
 		}
-		// Don't descend into directories for now
-		if info.IsDir() {
-			return nil
-		}
-		// Ignore hidden files
-		if strings.HasPrefix(info.Name(), ".") {
-			return nil
-		}
+
 		recipeFile, err := ParseFile(fullFilepath)
 		if err != nil {
 			return nil
