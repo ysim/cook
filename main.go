@@ -173,6 +173,8 @@ func main() {
 		switch args[0] {
 		case "search":
 			fmt.Println("Usage: cook search \"key=value\"")
+		case "validate":
+			ValidateFiles()
 		default:
 			DisplayRecipe(GetFullFilepath(args[0]))
 		}
