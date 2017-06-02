@@ -82,9 +82,19 @@ AND `vegetarian`
 
 More powerful search syntax coming soon!
 
+##### Edit a recipe
+
+    cook edit [recipe name]
+
+This will open the recipe in text editor (defaults to `vim`). Set the `$EDITOR`
+environment variable to open it with a different text editor.
+
 ### Customizations
 
 * Recipe directory location (default `$HOME/.recipes`): to change this, export
 `COOK_RECIPES_DIR`
 
 * Recipe extension (default `.md`): to change this, export `COOK_RECIPES_EXT`
+
+* Text editor for editing recipes (default `vim`): to change this, export
+`EDITOR`.
