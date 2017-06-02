@@ -33,6 +33,21 @@ within `~/.bash_completion.d/`:
 
         ln -s "$(pwd)/completion/cook.bash-completion" ~/.bash_completion.d/
 
+1. Recommended: source `~/.bash_completion` in one of your startup files, like
+`~/.bashrc`:
+
+        if [[ -f ~/.bash_completion ]] ; then
+            source ~/.bash_completion
+        fi
+
+    To check that the completion is working, source this file, then run:
+
+        complete -p
+
+    The following line should appear in the output:
+
+        complete -F _cook cook
+
 ### Usage
 
 ##### Create/port recipe files
