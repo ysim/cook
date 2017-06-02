@@ -28,8 +28,12 @@ type RecipeFile struct {
 }
 
 func PrintUsageString() {
-	// Use a raw string literal (using backticks) instead
-	fmt.Printf("Usage:\n\tcook [recipe]\n\tcook search key:value\n")
+	s := `Usage:
+    cook [recipe]
+    cook edit [recipe]
+    cook search key:value[[,|+]value...]
+`
+	fmt.Printf(s)
 }
 
 func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
