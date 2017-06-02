@@ -2,6 +2,9 @@ package main
 
 import (
 	"github.com/stretchr/testify/assert"
+	"io/ioutil"
+	"log"
+	"os"
 	"testing"
 )
 
@@ -27,5 +30,44 @@ func TestParseFrontMatter(t *testing.T) {
 		actualResult, actualError := ParseFrontMatter(table.FrontMatterBytes)
 		assert.Equal(t, table.ExpectedResult, actualResult)
 		assert.Equal(t, table.ExpectedError, actualError)
+	}
+}
+
+func CreateTempTestFile(contents []byte) *os.File {
+	// Specifying an empty string for the first arg means that Tempfile will
+	// use the default directory for temporary files
+	tmpfile, err := ioutil.TempFile("", "testrecipe")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err := tmpfile.Write(contents); err != nil {
+		log.Fatal(err)
+	}
+	if err := tmpfile.Close(); err != nil {
+		log.Fatal(err)
+	}
+	return tmpfile
+}
+
+func TestParseFile(t *testing.T) {
+	tables := []struct {
+		FileContentString []byte
+		ExpectedResult    RecipeFile
+		ExpectedError     error
+	}{
+		{
+			[]byte("---\nname: french fries\ntexture: [crispy]\n---\nThe recipe."),
+			RecipeFile{[]byte("name: french fries\ntexture: [crispy]"), []byte("The recipe.")},
+			nil,
+		},
+	}
+
+	for _, table := range tables {
+		f := CreateTempTestFile(table.FileContentString)
+		actualResult, actualError := ParseFile(f.Name())
+		assert.Equal(t, table.ExpectedResult, actualResult)
+		assert.Equal(t, table.ExpectedError, actualError)
+		os.Remove(f.Name()) // Remember to clean up!
 	}
 }

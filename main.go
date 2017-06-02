@@ -92,8 +92,8 @@ func ParseFile(fullFilepath string) (RecipeFile, error) {
 			return recipeFile, fmt.Errorf(errorMsg)
 		}
 		recipeFile := RecipeFile{
-			FrontMatter: assumedFrontMatter,
-			Markdown:    assumedMarkdown,
+			FrontMatter: bytes.TrimSpace(assumedFrontMatter),
+			Markdown:    bytes.TrimSpace(assumedMarkdown),
 		}
 		return recipeFile, nil
 	default:
