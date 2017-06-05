@@ -25,7 +25,7 @@ _cook() {
 
     local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
     local line="${COMP_LINE}" # entire command line being completed
-    local commands="edit search help"
+    local commands="edit help search validate"
 
     # If two words have already been entered...
     if [[ "${COMP_CWORD}" -gt 1 ]]; then
@@ -38,6 +38,9 @@ _cook() {
                 ;;
             search)
                 # TODO: Autocomplete with field names once there is indexing
+                return
+                ;;
+            validate)
                 return
                 ;;
         esac
