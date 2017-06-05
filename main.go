@@ -133,8 +133,9 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 func DisplayRecipe(fullFilepath string) {
 	recipeFile, err := ParseFile(fullFilepath)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		log.WithFields(log.Fields{
+			"file": fullFilepath,
+		}).Panic(err.Error())
 	}
 	RenderMarkdown(recipeFile.Markdown)
 }
