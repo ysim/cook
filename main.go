@@ -5,7 +5,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/russross/blackfriday"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -71,12 +70,6 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 		}
 	}
 	return fm, nil
-}
-
-func RenderMarkdown(mdBytes []byte) {
-	// TODO: decide how to render the markdown
-	output := blackfriday.MarkdownBasic(mdBytes)
-	fmt.Println(string(output))
 }
 
 func ParseFile(fullFilepath string) (RecipeFile, error) {
