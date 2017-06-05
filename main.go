@@ -111,7 +111,7 @@ func ParseFile(fullFilepath string) (RecipeFile, error) {
 		}
 		return recipeFile, nil
 	default:
-		errorMsg = "Recipe files must consist of a YAML front matter block and non-blank Markdown."
+		errorMsg = "Recipe files must consist of a YAML front matter block delimited by three hyphens (---) followed non-blank Markdown."
 		return recipeFile, fmt.Errorf(errorMsg)
 	}
 }
