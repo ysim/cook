@@ -1,3 +1,7 @@
+.PHONY: get-deps
+get-deps:
+	go get github.com/sirupsen/logrus
+
 .PHONY: build
 build: main.go search.go validate.go
 	go build -o cook main.go search.go validate.go

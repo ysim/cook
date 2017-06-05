@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"path/filepath"
 	"strings"
@@ -84,7 +84,9 @@ func Match(queryArgs map[string]Constraint, fileArgs map[string][]string) bool {
 // files will be skipped.
 func ShouldSkipFile(info os.FileInfo, err error) bool {
 	if err != nil {
-		log.Print(err)
+		log.WithFields(log.Fields{
+			"file": info.Name(),
+		}).Warn(err)
 		return true
 	}
 	// Don't descend into directories for now
@@ -111,7 +113,9 @@ func SearchFile(args map[string]Constraint) filepath.WalkFunc {
 		}
 		frontMatter, err := ParseFrontMatter(recipeFile.FrontMatter)
 		if err != nil {
-			log.Printf("Unknown type detected in front matter of file '%s'\n", fullFilepath)
+			log.WithFields(log.Fields{
+				"file": fullFilepath,
+			}).Warn("Unknown type detected in front matter")
 		}
 
 		isMatch := Match(args, frontMatter)
@@ -183,6 +187,6 @@ func Search(args []string) {
 
 	searchErr := filepath.Walk(prefix, SearchFile(parsedQuery))
 	if searchErr != nil {
-		log.Fatal(searchErr)
+		log.Warn(searchErr)
 	}
 }

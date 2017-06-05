@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/russross/blackfriday"
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -158,6 +159,11 @@ func init() {
 	if suffix == "" {
 		suffix = ".md"
 	}
+
+	// Log levels
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.WarnLevel)
 }
 
 func main() {
