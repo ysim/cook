@@ -75,6 +75,16 @@ should look something like this:
 
         1. ...rest of the steps...
 
+##### Validate the formatting of your recipe files
+
+Once you're finished porting/creating your recipe files, use the `validate`
+command to check their formatting:
+
+    cook validate
+
+This will walk through `$COOK_RECIPES_DIR` and list the files with formatting
+that cannot be parsed by `cook`, along with a reason.
+
 ##### View a recipe
 
 To view a single recipe, run `cook [recipe name]`. Take advantage of the bash
