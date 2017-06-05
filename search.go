@@ -109,6 +109,9 @@ func SearchFile(args map[string]Constraint) filepath.WalkFunc {
 
 		recipeFile, err := ParseFile(fullFilepath)
 		if err != nil {
+			log.WithFields(log.Fields{
+				"file": fullFilepath,
+			}).Warn(err.Error())
 			return nil
 		}
 		frontMatter, err := ParseFrontMatter(recipeFile.FrontMatter)
