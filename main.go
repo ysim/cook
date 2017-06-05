@@ -49,6 +49,10 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 	// easier
 	fm := make(map[string][]string, len(rfm))
 	for k, v := range rfm {
+		if v == nil {
+			errMsg := fmt.Sprintf("Key '%s' has the value <nil>", k)
+			return nil, errors.New(errMsg)
+		}
 		t := reflect.TypeOf(v).Kind()
 		switch t {
 		case reflect.String:
