@@ -105,7 +105,8 @@ The following search syntaxes are supported:
 * `cook search tags:soup+vegetarian`: show all recipes with the tag `soup`
 AND `vegetarian`
 
-More powerful search syntax coming soon!
+More powerful search syntax coming soon; next up, support for multi-field
+searching (e.g. `tags:lazy AND ingredients:bacon`)
 
 ##### Edit a recipe
 
