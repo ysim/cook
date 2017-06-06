@@ -28,8 +28,11 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 			tagName := string(tn)
 			switch token {
 			case html.StartTagToken:
-				if tagName == "h1" {
+				switch tagName {
+				case "h1":
 					output = append(output, style_h1)
+				case "li":
+					output = append(output, "- ")
 				}
 			case html.EndTagToken:
 				if tagName == "h1" {
