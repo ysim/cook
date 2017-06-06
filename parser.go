@@ -13,6 +13,7 @@ const (
 	style_h2    = "\x1b[4;92m"   // green, underline, high intensity
 	style_h3    = "\x1b[0;92m"   // green, high intensity
 	style_h4    = "\x1b[0;32m"   // green
+	style_h5    = "\x1b[0;33m"   // yellow
 	style_reset = "\x1b[0m"
 )
 
@@ -40,12 +41,14 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					output = append(output, style_h3)
 				case "h4":
 					output = append(output, style_h4)
+				case "h5":
+					output = append(output, style_h5)
 				case "li":
 					output = append(output, "- ")
 				}
 			case html.EndTagToken:
 				switch tagName {
-				case "h1", "h2", "h3", "h4":
+				case "h1", "h2", "h3", "h4", "h5":
 					output = append(output, style_reset)
 				}
 				output = append(output, "\n")
