@@ -19,7 +19,17 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 		case html.TextToken:
 			output = append(output, strings.TrimSpace(string(z.Text())))
 		case html.StartTagToken, html.EndTagToken:
-			if token == html.EndTagToken {
+			tn, _ := z.TagName()
+			tagName := string(tn)
+			switch token {
+			case html.StartTagToken:
+				if tagName == "h1" {
+					output = append(output, "\x1b[1;4;92m")
+				}
+			case html.EndTagToken:
+				if tagName == "h1" {
+					output = append(output, "\x1b[0m")
+				}
 				output = append(output, "\n")
 			}
 		}
