@@ -8,6 +8,11 @@ import (
 	"strings"
 )
 
+const (
+	style_h1    = "\x1b[1;4;92m"
+	style_reset = "\x1b[0m"
+)
+
 func ParseHTML(htmlBytes []byte) ([]string, error) {
 	var output []string
 	z := html.NewTokenizer(bytes.NewReader(htmlBytes))
@@ -24,11 +29,11 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 			switch token {
 			case html.StartTagToken:
 				if tagName == "h1" {
-					output = append(output, "\x1b[1;4;92m")
+					output = append(output, style_h1)
 				}
 			case html.EndTagToken:
 				if tagName == "h1" {
-					output = append(output, "\x1b[0m")
+					output = append(output, style_reset)
 				}
 				output = append(output, "\n")
 			}
