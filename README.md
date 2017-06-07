@@ -86,9 +86,10 @@ command to check their formatting:
 
     cook validate
 
-This will walk through `$COOK_RECIPES_DIR` and list the files with formatting
-that cannot be parsed by `cook`, along with a reason.
-
+If you see any errors parsing files while using `cook`, you can run this
+command to validate the formatting of your recipe files. This will walk through
+`$COOK_RECIPES_DIR` and list the files with formatting that cannot be parsed by
+`cook`, along with a reason.
 
 ##### Searching
 
