@@ -81,9 +81,6 @@ This will print the recipe to the screen with some light styling.
 
 ##### Validate the formatting of your recipe files
 
-Once you're finished porting/creating your recipe files, use the `validate`
-command to check their formatting:
-
     cook validate
 
 If you see any errors parsing files while using `cook`, you can run this
