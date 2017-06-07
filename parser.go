@@ -9,13 +9,14 @@ import (
 )
 
 const (
-	style_h1     = "\x1b[1;4;92m" // green, bold, underline, high intensity
-	style_h2     = "\x1b[4;92m"   // green, underline, high intensity
-	style_h3     = "\x1b[1;92m"   // green, bold, high intensity
-	style_h4     = "\x1b[1;93m"   // yellow, bold, high intensity
-	style_h5     = "\x1b[0;93m"   // yellow, high intensity
-	style_h6     = "\x1b[0;33m"   // yellow
-	style_strong = "\x1b[1;4;37m" // grey, bold, underline
+	style_h1     = "\n\n\x1b[1;4;92m" // green, bold, underline, high intensity
+	style_h2     = "\n\n\x1b[4;92m"   // green, underline, high intensity
+	style_h3     = "\n\n\x1b[1;92m"   // green, bold, high intensity
+	style_h4     = "\n\n\x1b[1;93m"   // yellow, bold, high intensity
+	style_h5     = "\n\n\x1b[0;93m"   // yellow, high intensity
+	style_h6     = "\n\n\x1b[0;33m"   // yellow
+	style_strong = "\x1b[1;4;37m"     // grey, bold, underline
+	style_em     = "\x1b[4;37m"       // grey, underline
 	style_reset  = "\x1b[0m"
 )
 
@@ -23,6 +24,7 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 	var output []string
 	var listPosition int
 	var isOrderedList bool
+	var inListItem bool
 
 	z := html.NewTokenizer(bytes.NewReader(htmlBytes))
 	for {
@@ -52,13 +54,20 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					output = append(output, style_h6)
 				case "strong":
 					output = append(output, style_strong)
+				case "em":
+					output = append(output, style_em)
+				case "p":
+					if !inListItem {
+						output = append(output, "\n\n")
+					}
 				case "li":
+					inListItem = true
 					listPosition++
 					switch isOrderedList {
 					case true:
-						output = append(output, fmt.Sprintf("%d. ", listPosition))
+						output = append(output, fmt.Sprintf("\n%d. ", listPosition))
 					case false:
-						output = append(output, "- ")
+						output = append(output, "\n- ")
 					}
 				case "ol":
 					isOrderedList = true
@@ -67,13 +76,14 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 				}
 			case html.EndTagToken:
 				switch tagName {
-				case "h1", "h2", "h3", "h4", "h5", "h6", "strong":
+				case "h1", "h2", "h3", "h4", "h5", "h6", "strong", "em":
 					output = append(output, style_reset)
 				case "ol":
 					isOrderedList = false
 					listPosition = 0
+				case "li":
+					inListItem = false
 				}
-				output = append(output, "\n")
 			}
 		}
 	}
