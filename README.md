@@ -85,13 +85,9 @@ that cannot be parsed by `cook`, along with a reason.
 
 ##### View a recipe
 
-To view a single recipe, run `cook [recipe name]`. Take advantage of the bash
-completion available. For now, this will print the recipe HTML to the screen
-(more features will be added soon to either render this markup in the command
-line or to open it in a webpage). Feel free to make use of
-[lynx](http://lynx.browser.org/) to view recipes for now, e.g.
+    cook [recipe name]
 
-    cook chicken-pot-pie | lynx -stdin
+This will print the recipe to the screen with some light styling.
 
 ##### Searching
 
