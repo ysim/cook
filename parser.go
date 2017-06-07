@@ -20,6 +20,9 @@ const (
 
 func ParseHTML(htmlBytes []byte) ([]string, error) {
 	var output []string
+	var listPosition int
+	var isOrderedList bool
+
 	z := html.NewTokenizer(bytes.NewReader(htmlBytes))
 	for {
 		token := z.Next()
@@ -47,12 +50,25 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 				case "h6":
 					output = append(output, style_h6)
 				case "li":
-					output = append(output, "- ")
+					listPosition++
+					switch isOrderedList {
+					case true:
+						output = append(output, fmt.Sprintf("%d. ", listPosition))
+					case false:
+						output = append(output, "- ")
+					}
+				case "ol":
+					isOrderedList = true
+					listPosition = 0
+					output = append(output, "\n")
 				}
 			case html.EndTagToken:
 				switch tagName {
 				case "h1", "h2", "h3", "h4", "h5", "h6":
 					output = append(output, style_reset)
+				case "ol":
+					isOrderedList = false
+					listPosition = 0
 				}
 				output = append(output, "\n")
 			}
