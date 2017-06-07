@@ -73,6 +73,12 @@ should look something like this:
 
         1. ...rest of the steps...
 
+##### View a recipe
+
+    cook [recipe name]
+
+This will print the recipe to the screen with some light styling.
+
 ##### Validate the formatting of your recipe files
 
 Once you're finished porting/creating your recipe files, use the `validate`
@@ -83,11 +89,6 @@ command to check their formatting:
 This will walk through `$COOK_RECIPES_DIR` and list the files with formatting
 that cannot be parsed by `cook`, along with a reason.
 
-##### View a recipe
-
-    cook [recipe name]
-
-This will print the recipe to the screen with some light styling.
 
 ##### Searching
 
