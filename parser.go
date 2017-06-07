@@ -9,13 +9,14 @@ import (
 )
 
 const (
-	style_h1    = "\x1b[1;4;92m" // green, bold, underline, high intensity
-	style_h2    = "\x1b[4;92m"   // green, underline, high intensity
-	style_h3    = "\x1b[1;92m"   // green, bold, high intensity
-	style_h4    = "\x1b[1;93m"   // yellow, bold, high intensity
-	style_h5    = "\x1b[0;93m"   // yellow, high intensity
-	style_h6    = "\x1b[0;33m"   // yellow
-	style_reset = "\x1b[0m"
+	style_h1     = "\x1b[1;4;92m" // green, bold, underline, high intensity
+	style_h2     = "\x1b[4;92m"   // green, underline, high intensity
+	style_h3     = "\x1b[1;92m"   // green, bold, high intensity
+	style_h4     = "\x1b[1;93m"   // yellow, bold, high intensity
+	style_h5     = "\x1b[0;93m"   // yellow, high intensity
+	style_h6     = "\x1b[0;33m"   // yellow
+	style_strong = "\x1b[1;4;37m" // grey, bold, underline
+	style_reset  = "\x1b[0m"
 )
 
 func ParseHTML(htmlBytes []byte) ([]string, error) {
@@ -49,6 +50,8 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					output = append(output, style_h5)
 				case "h6":
 					output = append(output, style_h6)
+				case "strong":
+					output = append(output, style_strong)
 				case "li":
 					listPosition++
 					switch isOrderedList {
@@ -64,7 +67,7 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 				}
 			case html.EndTagToken:
 				switch tagName {
-				case "h1", "h2", "h3", "h4", "h5", "h6":
+				case "h1", "h2", "h3", "h4", "h5", "h6", "strong":
 					output = append(output, style_reset)
 				case "ol":
 					isOrderedList = false
