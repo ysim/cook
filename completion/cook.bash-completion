@@ -41,7 +41,7 @@ _cook() {
                 return
                 ;;
             validate)
-                return
+                _cook_complete_filenames
                 ;;
         esac
     else
