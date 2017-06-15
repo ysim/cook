@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"log"
@@ -60,6 +61,11 @@ func TestParseFile(t *testing.T) {
 			[]byte("---\nname: french fries\ntexture: [crispy]\n---\nThe recipe."),
 			RecipeFile{[]byte("name: french fries\ntexture: [crispy]"), []byte("The recipe.")},
 			nil,
+		},
+		{
+			[]byte("---\nname: lasagna\n---\n---\nThere was no Markdown."),
+			RecipeFile{},
+			fmt.Errorf("No Markdown has been defined in this file."),
 		},
 	}
 
