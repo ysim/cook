@@ -88,6 +88,11 @@ command to validate the formatting of your recipe files. This will walk through
 `$COOK_RECIPES_DIR` and list the files with formatting that cannot be parsed by
 `cook`, along with a reason.
 
+    cook validate [recipe name]
+
+You can also validate a single file. Bash completion is available for this
+option.
+
 ##### Searching
 
 The following search syntaxes are supported:
