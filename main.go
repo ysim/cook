@@ -188,6 +188,8 @@ func main() {
 			Search(args[1:])
 		case "edit":
 			EditRecipe(GetFullFilepath(args[1]))
+		case "validate":
+			ValidateSingleFile(GetFullFilepath(args[1]))
 		default:
 			PrintUsageString()
 		}

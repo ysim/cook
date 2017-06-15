@@ -8,6 +8,23 @@ import (
 
 var invalidFileCount = 0
 
+func ValidateSingleFile(fullFilepath string) error {
+	recipeFile, err := ParseFile(fullFilepath)
+	if err != nil {
+		fmt.Printf("%s (%s)\n", fullFilepath, err.Error())
+		invalidFileCount++
+		return nil
+	}
+
+	_, err = ParseFrontMatter(recipeFile.FrontMatter)
+	if err != nil {
+		fmt.Printf("%s (%s)\n", fullFilepath, err.Error())
+		invalidFileCount++
+		return nil
+	}
+	return nil
+}
+
 func ValidateFile() filepath.WalkFunc {
 	return func(fullFilepath string, info os.FileInfo, err error) error {
 		shouldSkip := ShouldSkipFile(info, err)
@@ -15,20 +32,7 @@ func ValidateFile() filepath.WalkFunc {
 			return nil
 		}
 
-		recipeFile, err := ParseFile(fullFilepath)
-		if err != nil {
-			fmt.Printf("%s (%s)\n", fullFilepath, err.Error())
-			invalidFileCount++
-			return nil
-		}
-
-		_, err = ParseFrontMatter(recipeFile.FrontMatter)
-		if err != nil {
-			fmt.Printf("%s (%s)\n", fullFilepath, err.Error())
-			invalidFileCount++
-			return nil
-		}
-		return nil
+		return ValidateSingleFile(fullFilepath)
 	}
 }
 
