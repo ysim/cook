@@ -25,6 +25,11 @@ func TestParseFrontMatter(t *testing.T) {
 			map[string][]string{"name": []string{"nachos"}, "ingredients": []string{"minced beef"}},
 			nil,
 		},
+		{
+			[]byte("name: \ningredients: [a mystery]"),
+			nil,
+			fmt.Errorf("Key 'name' has the value <nil>"),
+		},
 	}
 
 	for _, table := range tables {
