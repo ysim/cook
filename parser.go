@@ -34,7 +34,8 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 		case html.ErrorToken:
 			return output, z.Err()
 		case html.TextToken:
-			output = append(output, strings.TrimSpace(string(z.Text())))
+			text := string(z.Text())
+			output = append(output, strings.Trim(text, "\n"))
 		case html.StartTagToken, html.EndTagToken:
 			tn, _ := z.TagName()
 			tagName := string(tn)
