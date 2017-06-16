@@ -25,6 +25,7 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 	var listPosition int
 	var isOrderedList bool
 	var inListItem bool
+	var depth int
 
 	z := html.NewTokenizer(bytes.NewReader(htmlBytes))
 	for {
@@ -63,16 +64,23 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 				case "li":
 					inListItem = true
 					listPosition++
+					output = append(output, "\n")
+					if depth > 1 {
+						output = append(output, strings.Repeat(" ", depth*2))
+					}
 					switch isOrderedList {
 					case true:
-						output = append(output, fmt.Sprintf("\n%d. ", listPosition))
+						output = append(output, fmt.Sprintf("%d. ", listPosition))
 					case false:
-						output = append(output, "\n- ")
+						output = append(output, "- ")
 					}
 				case "ol":
 					isOrderedList = true
 					listPosition = 0
 					output = append(output, "\n")
+					depth++
+				case "ul":
+					depth++
 				}
 			case html.EndTagToken:
 				switch tagName {
@@ -81,6 +89,9 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 				case "ol":
 					isOrderedList = false
 					listPosition = 0
+					depth--
+				case "ul":
+					depth--
 				case "li":
 					inListItem = false
 				}
