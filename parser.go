@@ -66,7 +66,7 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					listPosition++
 					output = append(output, "\n")
 					if depth > 1 {
-						output = append(output, strings.Repeat(" ", depth*2))
+						output = append(output, strings.Repeat(" ", depth*2-2))
 					}
 					switch isOrderedList {
 					case true:
