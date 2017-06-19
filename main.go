@@ -176,7 +176,7 @@ func main() {
 	case 1:
 		switch args[0] {
 		case "search":
-			fmt.Println("Usage: cook search \"key=value\"")
+			fmt.Println("Usage: cook search \"key:value\"")
 		case "validate":
 			ValidateFiles()
 		default:
