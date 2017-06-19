@@ -6,6 +6,6 @@ get-deps:
 build: main.go search.go validate.go parser.go
 	go build -o cook main.go search.go validate.go parser.go
 
-.PHONY: install
-install: build
+.PHONY: local
+local: build
 	install cook "${HOME}/bin/cook"
