@@ -1,3 +1,5 @@
+binary_location="${HOME}/bin/cook"
+
 .PHONY: get-deps
 get-deps:
 	go get github.com/sirupsen/logrus
@@ -8,4 +10,4 @@ build: main.go search.go validate.go parser.go
 
 .PHONY: local
 local: build
-	install cook "${HOME}/bin/cook"
+	install cook "$(binary_location)"
