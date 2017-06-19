@@ -20,6 +20,7 @@ var (
 	homeDir  string
 	prefix   string
 	suffix   string
+	version  string
 )
 
 type RecipeFile struct {
@@ -34,6 +35,10 @@ func PrintUsageString() {
     cook search key:value[[,|+]value...]
 `
 	fmt.Printf(s)
+}
+
+func PrintVersion() {
+	fmt.Println(version)
 }
 
 func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
@@ -179,6 +184,8 @@ func main() {
 			fmt.Println("Usage: cook search \"key:value\"")
 		case "validate":
 			ValidateFiles()
+		case "version":
+			PrintVersion()
 		default:
 			DisplayRecipe(GetFullFilepath(args[0]))
 		}

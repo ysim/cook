@@ -1,3 +1,4 @@
+version=v0.1.0
 binary_location="${HOME}/bin/cook"
 
 .PHONY: get-deps
@@ -6,7 +7,7 @@ get-deps:
 
 .PHONY: build
 build: main.go search.go validate.go parser.go
-	go build -o cook main.go search.go validate.go parser.go
+	go build -ldflags "-X main.version=$(version)" -o cook main.go search.go validate.go parser.go
 
 .PHONY: local
 local: build
