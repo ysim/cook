@@ -18,3 +18,7 @@ local: build
 install-bash-completion:
 	@install -v -d "$(bash_completion_dir)" && \
 		install -m 0644 -v completion/cook.bash-completion "$(bash_completion_dir)/cook"
+
+.PHONY: archive
+archive: build
+	tar -cvzf cook-$(version).tar.gz cook
