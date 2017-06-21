@@ -53,6 +53,18 @@ sensible, for example `~/.bash_completion.d`.
 
         complete -F _cook cook
 
+Build from source:
+
+1. Clone this repo.
+
+1. Download and install [Go](https://golang.org/).
+
+1. Build the binary:
+
+        make build
+
+1. Follow the above instructions for bash completion.
+
 ### Usage
 
 ##### Create/port recipe files
