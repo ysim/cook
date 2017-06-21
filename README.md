@@ -10,28 +10,35 @@ This program was inspired by Jason A. Donenfeld's
 
 ### Installation
 
-1. Clone the repo.
+Homebrew:
 
-1. Build the binary:
+1. Install:
 
-        make build
+        brew install ysim/cook/cook
 
-1. Move the binary somewhere on your `$PATH`.
+1. Add the following line to your `.bashrc` to enable bash completion:
 
-*Bash completion:*
+        source /usr/local/opt/pass/etc/bash_completion.d/cook
 
-1. Create a directory at `~/.bash_completion.d`.
+Download the binary:
 
-1. Copy this script to `~/.bash_completion` to source all the scripts
-within `~/.bash_completion.d/`:
+1. Go to the releases page: <https://github.com/ysim/cook/releases>
+
+1. Download the tarball of the binary (should be named `cook-vx.x.x.tar.gz`,
+where `x.x.x` is the version number) and move it somewhere on your `$PATH`.
+
+1. To enable bash completion, either download and uncompress or clone the source
+code of a release. Copy the file `completion/cook.bash-completion` somewhere
+sensible, for example `~/.bash_completion.d`.
+
+        mkdir ~/.bash_completion.d
+        cp completion/cook.bash-completion ~/.bash_completion.d
+
+    Copy the file `completion/bash_completion`:
 
         cp completion/bash_completion ~/.bash_completion
 
-1. Symlink the bash completion script for cook to `~/.bash_completion.d/`:
-
-        ln -s "$(pwd)/completion/cook.bash-completion" ~/.bash_completion.d/
-
-1. Recommended: source `~/.bash_completion` in one of your startup files, like
+    Then source `~/.bash_completion` in one of your startup files, like
 `~/.bashrc`:
 
         if [[ -f ~/.bash_completion ]] ; then
