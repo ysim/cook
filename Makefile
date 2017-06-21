@@ -1,4 +1,5 @@
 version=v0.1.0
+binary_tarball="cook-$(version).tar.gz"
 binary_location="${HOME}/bin/cook"
 bash_completion_dir ?= "${HOME}/.bash_completion.d/cook.bash-completion"
 
@@ -21,4 +22,4 @@ install-bash-completion:
 
 .PHONY: archive
 archive: build
-	tar -cvzf cook-$(version).tar.gz cook
+	tar -cvzf "$(binary_tarball)" cook
