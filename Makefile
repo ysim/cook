@@ -23,3 +23,4 @@ install-bash-completion:
 .PHONY: archive
 archive: build
 	tar -cvzf "$(binary_tarball)" cook
+	shasum -a 256 "$(binary_tarball)"
