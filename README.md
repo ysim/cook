@@ -105,11 +105,10 @@ AND `vegetarian`
 
 Note that values with a space in them must either be quoted or escaped:
 
-❌ `cook search tags:comfort food`
-✅ `cook search 'tags:comfort food'`
-✅ `cook search tags:'comfort food'`
+❌ `cook search tags:comfort food`  
+✅ `cook search 'tags:comfort food'`  
+✅ `cook search tags:'comfort food'`  
 ✅ `cook search tags:comfort\ food`
-
 
 More powerful search syntax coming soon; next up, support for multi-field
 searching (e.g. `tags:lazy AND ingredients:bacon`)
