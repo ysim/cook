@@ -138,10 +138,11 @@ environment variable to open it with a different text editor.
 
 ### Customizations
 
-* Recipe directory location (default `$HOME/.recipes`): to change this, export
-`COOK_RECIPES_DIR`
+Here are a few environment variables that can be set to override the default
+settings:
 
-* Recipe extension (default `.md`): to change this, export `COOK_RECIPES_EXT`
-
-* Text editor for editing recipes (default `vim`): to change this, export
-`EDITOR`.
+| setting          | default          | environment variable |
+| ---------------- | ---------------- | -------------------- |
+| recipe directory | `$HOME/.recipes` | `COOK_RECIPES_DIR`   |
+| recipe extension | `.md`            | `COOK_RECIPES_EXT`   |
+| text editor      | `vim`            | `EDITOR`             |
