@@ -133,8 +133,7 @@ Note that values with a space in them must either be quoted or escaped:
 
     cook edit [recipe name]
 
-This will open the recipe in text editor (defaults to `vim`). Set the `$EDITOR`
-environment variable to open it with a different text editor.
+This will open the recipe in a text editor.
 
 ### Customizations
 
