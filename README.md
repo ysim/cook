@@ -25,7 +25,7 @@ Download the binary:
 1. Go to the releases page: <https://github.com/ysim/cook/releases>
 
 1. Download the tarball of the binary (should be named `cook-vx.x.x.tar.gz`,
-where `x.x.x` is the version number) and move it somewhere on your `$PATH`.
+where `x.x.x` is the version number) and untar it somewhere on your `$PATH`.
 
 1. To enable bash completion, either download and uncompress or clone the source
 code of a release. Copy the file `completion/cook.bash-completion` somewhere
@@ -91,6 +91,9 @@ contents should look something like this:
         1. Step two
 
         1. ...rest of the steps...
+
+See the `recipes` subdirectory in this repo for some examples:
+<https://github.com/ysim/recipes>
 
 ##### View a recipe
 
