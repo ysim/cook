@@ -1,0 +1,7 @@
+v0.1.0 (2017-06-19)
+
+* Initial release on Homebrew
+* Display in the command line with styling
+* Search (on one field, with both AND and OR operators)
+* Editing
+* Validation (one file and entire directory)
