@@ -69,9 +69,9 @@ Build from source:
 
 ##### Create/port recipe files
 
-In a directory at (or symlinked to) `$HOME/.recipes`, create some recipes files
-with the `.md` (Markdown) extension, and with YAML front matter block. The file
-contents should look something like this:
+In a directory at `$HOME/.recipes`, create some recipes files with the `.md`
+(Markdown) extension, and with YAML front matter block. The file contents
+should look something like this:
 
         ---
         name: roasted cauliflower soup
