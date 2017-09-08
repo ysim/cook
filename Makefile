@@ -1,7 +1,7 @@
 version=v0.1.0
 binary_tarball="cook-$(version).tar.gz"
 binary_location="${HOME}/bin/cook"
-bash_completion_dir ?= "${HOME}/.bash_completion.d/cook.bash-completion"
+bash_completion_dir ?= "${HOME}/.bash_completion.d"
 
 .PHONY: get-deps
 get-deps:
@@ -17,8 +17,9 @@ local: build
 
 .PHONY: install-bash-completion
 install-bash-completion:
+	@install -v completion/bash_completion "${HOME}/.bash_completion"
 	@install -v -d "$(bash_completion_dir)" && \
-		install -m 0644 -v completion/cook.bash-completion "$(bash_completion_dir)/cook"
+		install -m 0644 -v completion/cook.bash-completion "$(bash_completion_dir)/cook.bash-completion"
 
 .PHONY: archive
 archive: build
