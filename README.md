@@ -28,15 +28,9 @@ Download the binary:
 where `x.x.x` is the version number) and untar it somewhere on your `$PATH`.
 
 1. To enable bash completion, either download and uncompress or clone the source
-code of a release. Copy the file `completion/cook.bash-completion` somewhere
-sensible, for example `~/.bash_completion.d`.
+code of a release. Go into the directory, then run:
 
-        mkdir ~/.bash_completion.d
-        cp completion/cook.bash-completion ~/.bash_completion.d
-
-    Copy the file `completion/bash_completion`:
-
-        cp completion/bash_completion ~/.bash_completion
+        make install-bash-completion
 
     Then source `~/.bash_completion` in one of your startup files, like
 `~/.bashrc`:
