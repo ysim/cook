@@ -2,3 +2,5 @@
 cook
 
 *.tar.gz
+
+vendor/
