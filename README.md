@@ -41,9 +41,9 @@ code of a release. Go into the directory, then run:
 
     To check that the completion is working, source this file, then run:
 
-        complete -p
+        complete -p | grep cook
 
-    The following line should appear in the output:
+    You should get the output:
 
         complete -F _cook cook
 
