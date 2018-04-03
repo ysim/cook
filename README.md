@@ -59,7 +59,7 @@ Build from source:
 
 1. Build the binary:
 
-        make build
+        make build GOOS=... GOARCH=...
 
 1. Follow the above instructions for bash completion.
 
