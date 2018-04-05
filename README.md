@@ -61,6 +61,11 @@ Build from source:
 
         make build GOOS=... GOARCH=...
 
+    Possible values for `$GOOS`: `android darwin dragonfly freebsd linux nacl netbsd openbsd plan9 solaris windows zos`  
+    Possible values for `$GOARCH`: `386 amd64 amd64p32 arm armbe arm64 arm64be ppc64 ppc64le mips mipsle mips64 mips64le mips64p32 mips64p32le ppc s390 s390x sparc sparc64`
+
+    List of valid combinations of `$GOOS` and `$GOARCH`: <https://golang.org/doc/install/source#environment>
+
 1. Follow the above instructions for bash completion.
 
 ### Usage
