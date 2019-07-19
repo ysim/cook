@@ -95,9 +95,6 @@ should look something like this:
 
         1. ...rest of the steps...
 
-See the `recipes` subdirectory in this repo for some examples:
-<https://github.com/ysim/recipes>
-
 ### View a recipe
 
     cook [recipe name]
