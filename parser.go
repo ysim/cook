@@ -60,7 +60,7 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					output = append(output, style_em)
 				case "p":
 					if !inListItem {
-						output = append(output, "\n\n")
+						output = append(output, "\n")
 					}
 				case "li":
 					inListItem = true
@@ -71,14 +71,13 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					}
 					switch isOrderedList {
 					case true:
-						output = append(output, fmt.Sprintf("%d. ", listPosition))
+						output = append(output, fmt.Sprintf("\n%d. ", listPosition))
 					case false:
 						output = append(output, "- ")
 					}
 				case "ol":
 					isOrderedList = true
 					listPosition = 0
-					output = append(output, "\n")
 					depth++
 				case "ul":
 					depth++
