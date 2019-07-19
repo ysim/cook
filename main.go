@@ -154,6 +154,18 @@ func init() {
 	if prefix == "" {
 		prefix = fmt.Sprintf("%s/.recipes", homeDir)
 	}
+	fileInfo, err := os.Lstat(prefix)
+	if err != nil {
+		fmt.Printf("There was an error getting file info for: %s\n", prefix)
+		os.Exit(1)
+	}
+	if fileInfo.Mode()&os.ModeSymlink != 0 {
+		prefix, err = os.Readlink(prefix)
+		if err != nil {
+			fmt.Printf("Unable to read symlink: %s\n", prefix)
+			os.Exit(1)
+		}
+	}
 	suffix = os.Getenv("COOK_RECIPES_EXT")
 	if suffix == "" {
 		suffix = ".md"
