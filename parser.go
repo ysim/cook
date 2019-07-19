@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	style_h1     = "\n\n\x1b[1;4;92m" // green, bold, underline, high intensity
+	style_h1     = "\n\x1b[1;4;92m" // green, bold, underline, high intensity
 	style_h2     = "\n\n\x1b[4;92m"   // green, underline, high intensity
 	style_h3     = "\n\n\x1b[1;92m"   // green, bold, high intensity
 	style_h4     = "\n\n\x1b[1;93m"   // yellow, bold, high intensity
@@ -32,6 +32,8 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 		token := z.Next()
 		switch token {
 		case html.ErrorToken:
+			// Add trailing newline to make space before next command prompt
+			output = append(output, "\n")
 			return output, z.Err()
 		case html.TextToken:
 			text := string(z.Text())
@@ -60,7 +62,7 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					output = append(output, style_em)
 				case "p":
 					if !inListItem {
-						output = append(output, "\n\n")
+						output = append(output, "\n")
 					}
 				case "li":
 					inListItem = true
@@ -71,14 +73,13 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 					}
 					switch isOrderedList {
 					case true:
-						output = append(output, fmt.Sprintf("%d. ", listPosition))
+						output = append(output, fmt.Sprintf("\n%d. ", listPosition))
 					case false:
 						output = append(output, "- ")
 					}
 				case "ol":
 					isOrderedList = true
 					listPosition = 0
-					output = append(output, "\n")
 					depth++
 				case "ul":
 					depth++

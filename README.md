@@ -8,7 +8,7 @@ in the front matter, such as `tags: [vegetarian, spicy]` or
 This program was inspired by Jason A. Donenfeld's
 [pass](https://www.passwordstore.org/).
 
-### Installation
+## Installation
 
 Homebrew:
 
@@ -68,9 +68,9 @@ Build from source:
 
 1. Follow the above instructions for bash completion.
 
-### Usage
+## Usage
 
-##### Create/port recipe files
+### Create/port recipe files
 
 In a directory at `$HOME/.recipes`, create some recipes files with the `.md`
 (Markdown) extension, and with YAML front matter block. The file contents
@@ -95,16 +95,13 @@ should look something like this:
 
         1. ...rest of the steps...
 
-See the `recipes` subdirectory in this repo for some examples:
-<https://github.com/ysim/recipes>
-
-##### View a recipe
+### View a recipe
 
     cook [recipe name]
 
 This will print the recipe to the screen with some light styling.
 
-##### Validate the formatting of your recipe files
+### Validate the formatting of your recipe files
 
     cook validate
 
@@ -118,7 +115,7 @@ command to validate the formatting of your recipe files. This will walk through
 You can also validate a single file. Bash completion is available for this
 option.
 
-##### Searching
+### Searching
 
 The following search syntaxes are supported:
 
@@ -135,13 +132,13 @@ Note that values with a space in them must either be quoted or escaped:
 ✅ `cook search tags:'comfort food'`  
 ✅ `cook search tags:comfort\ food`
 
-##### Edit a recipe
+### Edit a recipe
 
     cook edit [recipe name]
 
 This will open the recipe in a text editor.
 
-### Customizations
+## Customizations
 
 Here are a few environment variables that can be set to override the default
 settings:
