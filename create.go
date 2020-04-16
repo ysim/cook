@@ -3,11 +3,50 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
-func validateNewRecipe(filename string) {
+const (
+	keyValueDelimiter = "="
+	openBracket = "["
+	closeBracket = "]"
+)
+
+func validateFieldValue(value string) string {
+	// First, validate that we were given something in a format that we expect.
+	valueContent := strings.Trim(value, strings.Join([]string{openBracket, closeBracket}, ""))
+	valueArray := strings.Split(valueContent, ",")
+	var trimmedValueArray []string
+	for _, s := range valueArray {
+		trimmedValueArray = append(trimmedValueArray, strings.TrimSpace(s))
+	}
+
+	// Then, put it all back together in a standard format.
+	normalizedFieldValue := fmt.Sprintf("[%s]", strings.Join(trimmedValueArray, ", "))
+
+	return normalizedFieldValue
+}
+
+func validateFields(fieldFlags []string) (map[string]interface{}, error) {
+	// TODO: Be able to use a delimiter other than =, like :
+	// TODO: Be able to use brackets other than []
+
+	fields := make(map[string]interface{})
+	// How do we determine if something is a list? Square brackets? A comma at the end?
+	for _, rawField := range fieldFlags {
+		splitValueArray := strings.Split(rawField, keyValueDelimiter)
+
+		// If there's a third item in the array, we don't care about it. :)
+		key := splitValueArray[0]
+		value := splitValueArray[1]
+
+		fields[key] = validateFieldValue(value)
+	}
+	return fields, nil
+}
+
+func validateNewRecipe(filename string) string {
 	filepath := GetFullFilepath(filename)
-	fmt.Println(filepath)
 	_, err := os.Stat(filepath)
 
 	// Not the same as os.IsExist! This is because os.Stat doesn't throw an
@@ -17,8 +56,21 @@ func validateNewRecipe(filename string) {
 		fmt.Printf("There already exists a file at the path: %s\n", filepath)
 		os.Exit(1)
 	}
+	return filepath
 }
 
-func CreateNewRecipe(filename string, name string) {
-	validateNewRecipe(filename)
+func writeNewRecipeFile(filepath string, name string, fields map[string]interface{}) {
+	fmt.Printf("New recipe file at path: %s\n", filepath)
+	fmt.Printf("Recipe name: %s\n", name)
+	fmt.Printf("Recipe fields: %q\n", fields)
+}
+
+func CreateNewRecipe(filename string, name string, fieldFlags []string) {
+	validatedFields, validateFieldsErr := validateFields(fieldFlags)
+	if validateFieldsErr != nil {
+		fmt.Println("An error occurred while validating the new recipe fields.")
+		os.Exit(1)
+	}
+	filepath := validateNewRecipe(filename)
+	writeNewRecipeFile(filepath, name, validatedFields)
 }
