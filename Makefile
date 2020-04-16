@@ -4,8 +4,8 @@ binary_location="${HOME}/bin/cook"
 bash_completion_dir ?= "${HOME}/.bash_completion.d"
 
 .PHONY: build
-build: main.go search.go validate.go parser.go
-	go build -ldflags "-X main.version=$(version)" -o cook main.go search.go validate.go parser.go
+build: main.go search.go validate.go parser.go create.go
+	go build -ldflags "-X main.version=$(version)" -o cook main.go search.go validate.go parser.go create.go
 
 .PHONY: local
 local: build
