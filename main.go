@@ -176,7 +176,27 @@ func init() {
 	log.SetLevel(log.WarnLevel)
 }
 
+type flagArray []string
+
+func (i *flagArray) String() string {
+  return "Spooky string."
+}
+
+func (i *flagArray) Set(value string) error {
+	// While it is possible (and more efficient) to create a map while we're
+	// iterating through the flags, I'd prefer to keep the parser logic separate
+	// from the code here, which is just concerned with CLI processing.
+  *i = append(*i, value)
+  return nil
+}
+
+var fieldFlags flagArray
+
 func main() {
+	recipeFilename := flag.String("filename", "", "The recipe filename (without the extension).")
+	recipeName := flag.String("name", "", "The recipe name.")
+	flag.Var(&fieldFlags, "f", "An arbitrary field.")
+
 	var args []string
 	switch testArgs {
 	case nil:
@@ -191,6 +211,8 @@ func main() {
 		PrintUsageString()
 	case 1:
 		switch args[0] {
+		case "new":
+			CreateNewRecipe(*recipeFilename, *recipeName, fieldFlags)
 		case "search":
 			fmt.Println("Usage: cook search \"key:value\"")
 		case "validate":

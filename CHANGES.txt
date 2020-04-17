@@ -1,3 +1,8 @@
+v0.2.0 (2020-04-17)
+
+* Introduction of `new` subcommand that creates new recipe file with given
+attributes out of a template (#12)
+
 v0.1.1 (2019-07-19)
 
 * Fixed bug that wouldn't allow the reading of a symlink specified by
