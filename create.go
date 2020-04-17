@@ -71,11 +71,11 @@ func writeNewRecipeFile(filepath string, name string, fields map[string]interfac
 }
 
 func CreateNewRecipe(filename string, name string, fieldFlags []string) {
+	filepath := validateNewRecipe(filename)
 	validatedFields, validateFieldsErr := validateFields(fieldFlags)
 	if validateFieldsErr != nil {
 		fmt.Println("An error occurred while validating the new recipe fields.")
 		os.Exit(1)
 	}
-	filepath := validateNewRecipe(filename)
 	writeNewRecipeFile(filepath, name, validatedFields)
 }
