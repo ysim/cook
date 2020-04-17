@@ -46,6 +46,11 @@ func validateFields(fieldFlags []string) (map[string]interface{}, error) {
 }
 
 func validateNewRecipe(filename string) string {
+	if filename == "" {
+		fmt.Println("You must provide at least a filename in order to create a new recipe.")
+		os.Exit(1)
+	}
+
 	filepath := GetFullFilepath(filename)
 	_, err := os.Stat(filepath)
 

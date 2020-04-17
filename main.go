@@ -193,8 +193,8 @@ func (i *flagArray) Set(value string) error {
 var fieldFlags flagArray
 
 func main() {
-	recipeFilename := flag.String("filename", "new-recipe", "The recipe filename (without the extension).")
-	recipeName := flag.String("name", "New Recipe", "The recipe name.")
+	recipeFilename := flag.String("filename", "", "The recipe filename (without the extension).")
+	recipeName := flag.String("name", "", "The recipe name.")
 	flag.Var(&fieldFlags, "f", "An arbitrary field.")
 
 	var args []string
