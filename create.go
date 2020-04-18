@@ -51,6 +51,10 @@ func validateNewRecipe(filename string) string {
 		os.Exit(1)
 	}
 
+	if strings.HasSuffix(filename, suffix) {
+		filename = strings.TrimSuffix(filename, suffix)
+	}
+
 	filepath := GetFullFilepath(filename)
 	_, err := os.Stat(filepath)
 
