@@ -40,11 +40,7 @@ func validateFieldValue(value string) string {
 }
 
 func validateFields(fieldFlags []string) (map[string]interface{}, error) {
-	// TODO: Be able to use a delimiter other than =, like :
-	// TODO: Be able to use brackets other than []
-
 	fields := make(map[string]interface{})
-	// How do we determine if something is a list? Square brackets? A comma at the end?
 	for _, rawField := range fieldFlags {
 		splitValueArray := strings.Split(rawField, keyValueDelimiter)
 
