@@ -123,4 +123,5 @@ func CreateNewRecipe(filename string, name string, fieldFlags []string) {
 	}
 
 	writeNewRecipeFile(filepath, name, validatedFields)
+	EditRecipe(filepath)
 }
