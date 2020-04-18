@@ -89,7 +89,7 @@ func writeNewRecipeFile(filepath string, name string, fields map[string]interfac
 
 	f, err := os.Create(filepath)
 	if err != nil {
-		fmt.Println("An error occurred creating a file at: %s", filepath)
+		fmt.Printf("An error occurred creating a file at: %s\n", filepath)
 	}
 	defer f.Close()
 
