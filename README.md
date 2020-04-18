@@ -81,13 +81,14 @@ should look something like this:
         tags: [soup, vegetarian]
         ingredients: [cauliflower]
         ---
+        # roasted cauliflower soup
 
-        ### INGREDIENTS
+        ## INGREDIENTS
 
         * 1 cauliflower, cut into florets
         * ...rest of ingredients...
 
-        ### INSTRUCTIONS
+        ## INSTRUCTIONS
 
         1. Step one
 
@@ -100,6 +101,16 @@ should look something like this:
     cook [recipe name]
 
 This will print the recipe to the screen with some light styling.
+
+### Create a new recipe
+
+    cook -filename=beer-bread -f='tags=[baking,bread]' -f='ingredients=[flour,yeast]' new
+
+This will create a recipe file at `${COOK_RECIPES_DIR}/beer-bread${COOK_RECIPES_EXTENSION}`
+with the given attributes and open it for editing by default.
+
+Only the `-filename` flag is mandatory; the rest can be omitted and
+subsequently filled in while editing.
 
 ### Validate the formatting of your recipe files
 
