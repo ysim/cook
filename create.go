@@ -4,13 +4,25 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"text/template"
 )
 
 const (
 	keyValueDelimiter = "="
 	openBracket = "["
 	closeBracket = "]"
+	newRecipeTemplate = "---\nname: {{.Name}}{{range .Fields}}\n{{.Key}}: {{.Value}}{{end}}\n---\n# {{.Name}}\n\n## INGREDIENTS\n\n## INSTRUCTIONS\n\n---\nSource:\n"
 )
+
+type RecipeField struct {
+	Key		string
+	Value	string
+}
+
+type RecipeSkeleton struct {
+	Name			string
+	Fields		[]RecipeField
+}
 
 func validateFieldValue(value string) string {
 	// First, validate that we were given something in a format that we expect.
@@ -69,17 +81,46 @@ func validateNewRecipe(filename string) string {
 }
 
 func writeNewRecipeFile(filepath string, name string, fields map[string]interface{}) {
-	fmt.Printf("New recipe file at path: %s\n", filepath)
-	fmt.Printf("Recipe name: %s\n", name)
-	fmt.Printf("Recipe fields: %q\n", fields)
+	var recipeFields []RecipeField
+	for k, v := range fields {
+		recipeFields = append(recipeFields, RecipeField{Key: k, Value: v.(string)})
+	}
+
+	recipeVariables := RecipeSkeleton{
+		Name: name,
+		Fields: recipeFields,
+	}
+
+	f, err := os.Create(filepath)
+	if err != nil {
+		fmt.Println("An error occurred creating a file at: %s", filepath)
+	}
+	defer f.Close()
+
+	tpl, err := template.New("newrecipe").Parse(newRecipeTemplate)
+	if err != nil {
+		fmt.Println("Error parsing recipe template.")
+		os.Exit(1)
+	}
+	err = tpl.Execute(f, recipeVariables)
+	if err != nil {
+		fmt.Println("Error executing template.")
+		os.Exit(1)
+	}
 }
 
 func CreateNewRecipe(filename string, name string, fieldFlags []string) {
 	filepath := validateNewRecipe(filename)
-	validatedFields, validateFieldsErr := validateFields(fieldFlags)
-	if validateFieldsErr != nil {
-		fmt.Println("An error occurred while validating the new recipe fields.")
-		os.Exit(1)
+
+	var validatedFields map[string]interface{}
+	var validateFieldsErr error
+	if len(fieldFlags) > 0 {
+		validatedFields, validateFieldsErr = validateFields(fieldFlags)
+		if validateFieldsErr != nil {
+			fmt.Println("An error occurred while validating the new recipe fields.")
+			os.Exit(1)
+		}
 	}
+
 	writeNewRecipeFile(filepath, name, validatedFields)
 }
