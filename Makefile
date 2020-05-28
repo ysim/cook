@@ -17,12 +17,14 @@ install-bash-completion:
 	@install -v -d "$(bash_completion_dir)" && \
 		install -m 0644 -v completion/cook.bash-completion "$(bash_completion_dir)/cook.bash-completion"
 
+.PHONY: release-darwin
 release-darwin:
 	$(MAKE) build GOOS=darwin GOARCH=amd64
 	@mkdir -p release/"$(version)"
 	tar -cvzf release/"$(version)"/"cook-darwin-$(version).tar.gz" cook
 	shasum -a 256 release/"$(version)"/"cook-darwin-$(version).tar.gz" | awk '{print $$1}' > release/"$(version)"/cook-darwin-$(version).sha256
 
+.PHONY: release-linux
 release-linux:
 	$(MAKE) build GOOS=linux GOARCH=amd64
 	@mkdir -p release/"$(version)"
