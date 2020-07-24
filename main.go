@@ -223,7 +223,7 @@ func main() {
 		case "version":
 			PrintVersion()
 		default:
-			DisplayRecipe(GetFullFilepath(args[2]))
+			DisplayRecipe(GetFullFilepath(args[1]))
 		}
 	default:
 		switch args[1] {
