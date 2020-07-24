@@ -8,15 +8,6 @@ import (
 	"sort"
 )
 
-func stringInSlice(s string, slice []string) bool {
-	for _, i := range slice {
-		if s == i {
-			return true
-		}
-	}
-	return false
-}
-
 func listValuesForKey(key string, values *[]string) filepath.WalkFunc {
 	return func(fullFilepath string, info os.FileInfo, err error) error {
 		shouldSkip := ShouldSkipFile(info, err)
@@ -31,6 +22,7 @@ func listValuesForKey(key string, values *[]string) filepath.WalkFunc {
 			}).Warn(err.Error())
 			return nil
 		}
+
 		frontMatter, err := ParseFrontMatter(recipeFile.FrontMatter)
 		if err != nil {
 			log.WithFields(log.Fields{
@@ -40,7 +32,7 @@ func listValuesForKey(key string, values *[]string) filepath.WalkFunc {
 
 		valueOfKey := frontMatter[key]
 		for _, v := range valueOfKey {
-			if stringInSlice(v, *values) == false {
+			if StringInSlice(v, *values) == false {
 				*values = append(*values, v)
 			}
 		}
