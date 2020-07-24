@@ -32,7 +32,11 @@ func PrintUsageString() {
 	s := `Usage:
     cook [recipe]
     cook edit [recipe]
-    cook search key:value[[,|+]value...]
+    cook list -key=KEY
+    cook new -filename=FILENAME
+    cook search key:value
+    cook validate [recipe]
+    cook version
 `
 	fmt.Printf(s)
 }
