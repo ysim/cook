@@ -128,6 +128,13 @@ subsequently filled in while editing:
     ---
     Source:
 
+### List unique values for a key
+
+    cook list -key=tags
+
+This will list, in alphabetical order, all the unique values for the `tags` key
+as defined in the recipe files' YAML front matter blocks.
+
 ### Validate the formatting of your recipe files
 
     cook validate
