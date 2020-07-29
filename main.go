@@ -21,6 +21,7 @@ var (
 	prefix   string
 	suffix   string
 	version  string
+	binary   string
 )
 
 type RecipeFile struct {
@@ -153,10 +154,24 @@ func EditRecipe(fullFilepath string) {
 
 func init() {
 	homeDir = os.Getenv("HOME")
-	prefix = os.Getenv("COOK_RECIPES_DIR")
-	if prefix == "" {
-		prefix = fmt.Sprintf("%s/.recipes", homeDir)
+
+	binary = os.Args[0]
+	switch binary {
+	case "cook":
+		prefix = os.Getenv("COOK_RECIPES_DIR")
+		if prefix == "" {
+			prefix = fmt.Sprintf("%s/.recipes", homeDir)
+		}
+	case "concoct":
+		prefix = os.Getenv("CONCOCT_RECIPES_DIR")
+		if prefix == "" {
+			prefix = fmt.Sprintf("%s/.drinks", homeDir)
+		}
+	default:
+		fmt.Println("Not a valid binary (must be one of `cook` or `concoct`).")
+		os.Exit(1)
 	}
+
 	fileInfo, err := os.Lstat(prefix)
 	if err != nil {
 		fmt.Printf("There was an error getting file info for: %s\n", prefix)
