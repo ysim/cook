@@ -32,7 +32,11 @@ func PrintUsageString() {
 	s := `Usage:
     cook [recipe]
     cook edit [recipe]
-    cook search key:value[[,|+]value...]
+    cook list -key=KEY
+    cook new -filename=FILENAME
+    cook search key:value
+    cook validate [recipe]
+    cook version
 `
 	fmt.Printf(s)
 }
@@ -193,43 +197,48 @@ func (i *flagArray) Set(value string) error {
 var fieldFlags flagArray
 
 func main() {
-	recipeFilename := flag.String("filename", "", "The recipe filename (without the extension).")
-	recipeName := flag.String("name", "", "The recipe name.")
-	flag.Var(&fieldFlags, "f", "An arbitrary field.")
+	newSubcommandFlagset := flag.NewFlagSet("newFlagset", flag.ContinueOnError)
+	listSubcommandFlagset := flag.NewFlagSet("listFlagset", flag.ContinueOnError)
 
-	var args []string
-	switch testArgs {
-	case nil:
-		flag.Parse()
-		args = flag.Args()
-	default:
-		args = testArgs
-	}
+	// `new` subcommand flag pointers
+	recipeFilename := newSubcommandFlagset.String("filename", "", "The recipe filename (without the extension).")
+	recipeName := newSubcommandFlagset.String("name", "", "The recipe name.")
+	newSubcommandFlagset.Var(&fieldFlags, "f", "An arbitrary field.")
 
+	// `list` subcommand flag pointers
+	keyPtr := listSubcommandFlagset.String("key", "", "The key name for which to list values.")
+
+	args := os.Args
 	switch len(args) {
-	case 0:
-		PrintUsageString()
 	case 1:
-		switch args[0] {
-		case "new":
-			CreateNewRecipe(*recipeFilename, *recipeName, fieldFlags)
-		case "search":
-			fmt.Println("Usage: cook search \"key:value\"")
+		PrintUsageString()
+	case 2:
+		switch args[1] {
+		case "edit", "new", "search":
+			PrintUsageString()
+		case "list":
+			List("")
 		case "validate":
 			ValidateFiles()
 		case "version":
 			PrintVersion()
 		default:
-			DisplayRecipe(GetFullFilepath(args[0]))
+			DisplayRecipe(GetFullFilepath(args[1]))
 		}
 	default:
-		switch args[0] {
-		case "search":
-			Search(args[1:])
+		switch args[1] {
 		case "edit":
-			EditRecipe(GetFullFilepath(args[1]))
+			EditRecipe(GetFullFilepath(args[2]))
+		case "new":
+			newSubcommandFlagset.Parse(args[2:])
+			CreateNewRecipe(*recipeFilename, *recipeName, fieldFlags)
+		case "list":
+			listSubcommandFlagset.Parse(args[2:])
+			List(*keyPtr)
+		case "search":
+			Search(args[2:])
 		case "validate":
-			ValidateSingleFile(GetFullFilepath(args[1]))
+			ValidateSingleFile(GetFullFilepath(args[2]))
 		default:
 			PrintUsageString()
 		}

@@ -104,13 +104,36 @@ This will print the recipe to the screen with some light styling.
 
 ### Create a new recipe
 
-    cook -filename=beer-bread -f='tags=[baking,bread]' -f='ingredients=[flour,yeast]' new
+    cook new -filename=beer-bread -f='tags=[baking,bread]' -f='ingredients=[flour,yeast]'
 
 This will create a recipe file at `${COOK_RECIPES_DIR}/beer-bread${COOK_RECIPES_EXTENSION}`
 with the given attributes and open it for editing by default.
 
 Only the `-filename` flag is mandatory; the rest can be omitted and
-subsequently filled in while editing.
+subsequently filled in while editing:
+
+    $ cook new -filename=dandan-noodles
+
+    ...new file opened in $EDITOR...
+
+    ---
+    name:
+    ---
+    #
+
+    ## INGREDIENTS
+
+    ## INSTRUCTIONS
+
+    ---
+    Source:
+
+### List unique values for a key
+
+    cook list -key=tags
+
+This will list, in alphabetical order, all the unique values for the `tags` key
+as defined in the recipe files' YAML front matter blocks.
 
 ### Validate the formatting of your recipe files
 
