@@ -42,7 +42,11 @@ func listValuesForKey(key string, values *[]string) filepath.WalkFunc {
 
 func List(key string) {
 	if key == "" {
-		fmt.Println("Functionality to list all keys is not implemented yet. (#21)")
+		uniqueKeys := make([]string, 0)
+		w := walk{prefix: prefix, abstractArray: &uniqueKeys}
+		w.WalkFrontMatter(w.WalkListKeys)
+		sort.Strings(uniqueKeys)
+		PrintArrayOnNewlines(uniqueKeys)
 	} else {
 		values := make([]string, 0)
 		listErr := filepath.Walk(prefix, listValuesForKey(key, &values))
