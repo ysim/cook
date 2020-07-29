@@ -25,6 +25,7 @@ func PrintArrayOnNewlines(a []string) {
 type walk struct {
 	prefix				string
 	abstractArray	*[]string
+	key						string
 }
 
 func (w walk) WalkFrontMatter(f func(map[string][]string) error, params ...interface{}) error {
@@ -62,6 +63,16 @@ func (w walk) WalkListKeys(frontMatter map[string][]string) error {
 		key := fmt.Sprintf("%s (%T)", k, v)
 		if StringInSlice(key, *w.abstractArray) == false {
 			*w.abstractArray = append(*w.abstractArray, key)
+		}
+	}
+	return nil
+}
+
+func (w walk) ListValuesForKey(frontMatter map[string][]string) error {
+	valueOfKey := frontMatter[w.key]
+	for _, v := range valueOfKey {
+		if StringInSlice(v, *w.abstractArray) == false {
+			*w.abstractArray = append(*w.abstractArray, v)
 		}
 	}
 	return nil
