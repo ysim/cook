@@ -9,7 +9,7 @@ func List(key string) {
 	if key == "" {
 		uniqueKeys := make([]string, 0)
 		w := walk{prefix: prefix, abstractArray: &uniqueKeys}
-		listErr := w.WalkFrontMatter(w.WalkListKeys)
+		listErr := w.WalkFrontMatter(w.ListKeys)
 
 		if listErr != nil {
 			errMsg := "An error occurred while attempting to list keys."

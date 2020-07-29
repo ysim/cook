@@ -65,7 +65,7 @@ func (w walk) WalkFrontMatter(f func(fmwalk), params ...interface{}) error {
 	return filepath.Walk(w.prefix, walkGenerator(params))
 }
 
-func (w walk) WalkListKeys(data fmwalk) {
+func (w walk) ListKeys(data fmwalk) {
 	for k, v := range data.fm {
 		key := fmt.Sprintf("%s (%T)", k, v)
 		if StringInSlice(key, *w.abstractArray) == false {
