@@ -32,7 +32,7 @@ func PrintUsageString() {
 	s := `Usage:
     cook [recipe]
     cook edit [recipe]
-    cook list -key=KEY
+    cook list [-key=KEY]
     cook new -filename=FILENAME
     cook search key:value
     cook validate [recipe]
