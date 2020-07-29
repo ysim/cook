@@ -5,7 +5,6 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -100,35 +99,6 @@ func ShouldSkipFile(info os.FileInfo, err error) bool {
 	return false
 }
 
-func SearchFile(args map[string]Constraint) filepath.WalkFunc {
-	return func(fullFilepath string, info os.FileInfo, err error) error {
-		shouldSkip := ShouldSkipFile(info, err)
-		if shouldSkip {
-			return nil
-		}
-
-		recipeFile, err := ParseFile(fullFilepath)
-		if err != nil {
-			log.WithFields(log.Fields{
-				"file": fullFilepath,
-			}).Warn(err.Error())
-			return nil
-		}
-		frontMatter, err := ParseFrontMatter(recipeFile.FrontMatter)
-		if err != nil {
-			log.WithFields(log.Fields{
-				"file": fullFilepath,
-			}).Warn("Unknown type detected in front matter")
-		}
-
-		isMatch := Match(args, frontMatter)
-		if isMatch {
-			fmt.Println(GetBasenameWithoutExt(fullFilepath))
-		}
-		return nil
-	}
-}
-
 func GetFieldValueLogic(s string) (Constraint, error) {
 	var cleanedField Constraint
 	// Make sure there are only , or &
@@ -188,7 +158,8 @@ func Search(args []string) {
 		os.Exit(1)
 	}
 
-	searchErr := filepath.Walk(prefix, SearchFile(parsedQuery))
+	w := walk{prefix: prefix, searchArgs: parsedQuery}
+	searchErr := w.WalkFrontMatter(w.SearchWithArgs)
 	if searchErr != nil {
 		log.Warn(searchErr)
 	}

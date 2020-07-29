@@ -26,9 +26,15 @@ type walk struct {
 	prefix				string
 	abstractArray	*[]string
 	key						string
+	searchArgs		map[string]Constraint
 }
 
-func (w walk) WalkFrontMatter(f func(map[string][]string) error, params ...interface{}) error {
+type fmwalk struct {
+	fm						map[string][]string
+	fullFilepath	string
+}
+
+func (w walk) WalkFrontMatter(f func(fmwalk), params ...interface{}) error {
 	walkGenerator := func(...interface{}) filepath.WalkFunc {
 		return func(fullFilepath string, info os.FileInfo, err error) error {
 			shouldSkip := ShouldSkipFile(info, err)
@@ -51,29 +57,35 @@ func (w walk) WalkFrontMatter(f func(map[string][]string) error, params ...inter
 				}).Warn("Unknown type detected in front matter")
 			}
 
-			f(frontMatter)
+			fmwalkData := fmwalk{fm: frontMatter, fullFilepath: fullFilepath}
+			f(fmwalkData)
 			return nil
 		}
 	}
 	return filepath.Walk(w.prefix, walkGenerator(params))
 }
 
-func (w walk) WalkListKeys(frontMatter map[string][]string) error {
-	for k, v := range frontMatter {
+func (w walk) WalkListKeys(data fmwalk) {
+	for k, v := range data.fm {
 		key := fmt.Sprintf("%s (%T)", k, v)
 		if StringInSlice(key, *w.abstractArray) == false {
 			*w.abstractArray = append(*w.abstractArray, key)
 		}
 	}
-	return nil
 }
 
-func (w walk) ListValuesForKey(frontMatter map[string][]string) error {
-	valueOfKey := frontMatter[w.key]
+func (w walk) ListValuesForKey(data fmwalk) {
+	valueOfKey := data.fm[w.key]
 	for _, v := range valueOfKey {
 		if StringInSlice(v, *w.abstractArray) == false {
 			*w.abstractArray = append(*w.abstractArray, v)
 		}
 	}
-	return nil
+}
+
+func (w walk) SearchWithArgs(data fmwalk) {
+	isMatch := Match(w.searchArgs, data.fm)
+	if isMatch {
+		fmt.Println(GetBasenameWithoutExt(data.fullFilepath))
+	}
 }
