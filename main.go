@@ -207,6 +207,7 @@ var fieldFlags flagArray
 func main() {
 	newSubcommandFlagset := flag.NewFlagSet("newFlagset", flag.ContinueOnError)
 	listSubcommandFlagset := flag.NewFlagSet("listFlagset", flag.ContinueOnError)
+	displayFlagset := flag.NewFlagSet("displayFlagset", flag.ContinueOnError)
 
 	// `new` subcommand flag pointers
 	recipeFilename := newSubcommandFlagset.String("filename", "", "The recipe filename (without the extension).")
@@ -215,6 +216,9 @@ func main() {
 
 	// `list` subcommand flag pointers
 	keyPtr := listSubcommandFlagset.String("key", "", "The key name for which to list values.")
+
+	// Flag pointers for recipe display
+	displayMetaPtr := displayFlagset.Bool("meta", false, "Display metadata for the recipe.")
 
 	args := os.Args
 	switch len(args) {
@@ -231,7 +235,7 @@ func main() {
 		case "version":
 			PrintVersion()
 		default:
-			DisplayRecipe(GetFullFilepath(args[1]))
+			DisplayRecipe(GetFullFilepath(args[1]), false)
 		}
 	default:
 		switch args[1] {
@@ -248,7 +252,12 @@ func main() {
 		case "validate":
 			ValidateSingleFile(GetFullFilepath(args[2]))
 		default:
-			PrintUsageString()
+			displayFlagset.Parse(args[2:])
+			if *displayMetaPtr == false {
+				PrintUsageString()
+			} else {
+				DisplayRecipe(GetFullFilepath(args[1]), *displayMetaPtr)
+			}
 		}
 	}
 }
