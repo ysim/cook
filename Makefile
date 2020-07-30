@@ -1,15 +1,17 @@
 version=v0.2.0
 binary_tarball="cook-$(version).tar.gz"
-binary_location="${HOME}/bin/cook"
+binary_location="${HOME}/bin"
 bash_completion_dir ?= "${HOME}/.bash_completion.d"
 
 .PHONY: build
 build: main.go search.go validate.go parser.go create.go list.go util.go
 	go build -ldflags "-X main.version=$(version)" -o cook main.go search.go validate.go parser.go create.go list.go util.go
+	go build -ldflags "-X main.version=$(version)" -o concoct main.go search.go validate.go parser.go create.go list.go util.go
 
 .PHONY: local
 local: build
-	install cook "$(binary_location)"
+	install cook "$(binary_location)/cook"
+	install concoct "$(binary_location)/concoct"
 
 .PHONY: install-bash-completion
 install-bash-completion:

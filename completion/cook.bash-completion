@@ -2,7 +2,16 @@
 # No need for a shebang line as this is meant to be sourced, not executed.
 
 _cook_complete_filenames() {
-    prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
+    binary="$1"
+    case "$binary" in
+        cook)
+            prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
+            ;;
+        concoct)
+            prefix="${CONCOCT_RECIPES_DIR:-$HOME/.drinks/}"
+            ;;
+    esac
+
     prefix="${prefix%/}/"
     suffix="${COOK_RECIPES_EXT:-.md}"
 
@@ -26,12 +35,13 @@ _cook() {
     local word="${COMP_WORDS[COMP_CWORD]}" # the word being completed
     local line="${COMP_LINE}" # entire command line being completed
     local commands="edit help search validate version"
+    local binary="${COMP_WORDS[0]}"
 
     # If two words have already been entered...
     if [[ "${COMP_CWORD}" -gt 1 ]]; then
         case "${COMP_WORDS[1]}" in
             edit)
-                _cook_complete_filenames
+                _cook_complete_filenames $binary
                 ;;
             help)
                 return
@@ -41,7 +51,7 @@ _cook() {
                 return
                 ;;
             validate)
-                _cook_complete_filenames
+                _cook_complete_filenames $binary
                 ;;
             version)
                 return
@@ -49,8 +59,9 @@ _cook() {
         esac
     else
         COMPREPLY+=($(compgen -W "${commands}" -- "${word}"))
-        _cook_complete_filenames
+        _cook_complete_filenames $binary
     fi
 }
 
 complete -F _cook cook
+complete -F _cook concoct
