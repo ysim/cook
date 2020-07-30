@@ -192,7 +192,7 @@ func init() {
 	}
 
 	// Log levels
-	log.SetFormatter(&log.TextFormatter{})
+	log.SetFormatter(&log.TextFormatter{DisableLevelTruncation: true})
 	log.SetOutput(os.Stdout)
 	log.SetLevel(log.FatalLevel)
 }
