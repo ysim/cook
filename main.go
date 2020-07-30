@@ -136,8 +136,8 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 func DisplayRecipe(fullFilepath string) {
 	recipeFile, err := ParseFile(fullFilepath)
 	if err != nil {
-		fmt.Printf("Unable to read file: %s\n", fullFilepath)
-		os.Exit(1)
+		errorMsg := fmt.Sprintf("Unable to read file: %s\n", fullFilepath)
+		log.Fatal(errorMsg)
 	}
 	RenderMarkdown(recipeFile.Markdown)
 }
@@ -168,20 +168,22 @@ func init() {
 			prefix = fmt.Sprintf("%s/.drinks", homeDir)
 		}
 	default:
-		fmt.Println("Not a valid binary (must be one of `cook` or `concoct`).")
-		os.Exit(1)
+		// Doesn't matter what the prefix is if the binary is neither `cook`
+		// nor `concoct` as long as the the path exists; this likely means
+		// that we're in test mode.
+		prefix = homeDir
 	}
 
 	fileInfo, err := os.Lstat(prefix)
 	if err != nil {
-		fmt.Printf("There was an error getting file info for: %s\n", prefix)
-		os.Exit(1)
+		errorMsg := fmt.Sprintf("There was an error getting file info for the prefix: %s\n", prefix)
+		log.Fatal(errorMsg)
 	}
 	if fileInfo.Mode()&os.ModeSymlink != 0 {
 		prefix, err = os.Readlink(prefix)
 		if err != nil {
-			fmt.Printf("Unable to read symlink: %s\n", prefix)
-			os.Exit(1)
+			errorMsg := fmt.Sprintf("Unable to read symlink: %s\n", prefix)
+			log.Fatal(errorMsg)
 		}
 	}
 	suffix = os.Getenv("COOK_RECIPES_EXT")
@@ -190,9 +192,9 @@ func init() {
 	}
 
 	// Log levels
-	log.SetFormatter(&log.JSONFormatter{})
+	log.SetFormatter(&log.TextFormatter{PadLevelText: true})
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.WarnLevel)
+	log.SetLevel(log.FatalLevel)
 }
 
 type flagArray []string
