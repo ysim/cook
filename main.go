@@ -133,15 +133,6 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 		-1)
 }
 
-func DisplayRecipe(fullFilepath string) {
-	recipeFile, err := ParseFile(fullFilepath)
-	if err != nil {
-		errorMsg := fmt.Sprintf("Unable to read file: %s\n", fullFilepath)
-		log.Fatal(errorMsg)
-	}
-	RenderMarkdown(recipeFile.Markdown)
-}
-
 func EditRecipe(fullFilepath string) {
 	cmd := exec.Command("vim", fullFilepath)
 	cmd.Stdin = os.Stdin
