@@ -42,8 +42,8 @@
   branch = "master"
 
 [[constraint]]
-  name = "gopkg.in/yaml.v2"
-  version = "2.2.2"
+  name = "gopkg.in/yaml.v3"
+  branch = "v3"
 
 [prune]
   go-tests = true
