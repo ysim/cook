@@ -194,7 +194,7 @@ func init() {
 	// Log levels
 	log.SetFormatter(&log.TextFormatter{})
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.WarnLevel)
+	log.SetLevel(log.FatalLevel)
 }
 
 type flagArray []string
