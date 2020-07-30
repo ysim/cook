@@ -168,8 +168,10 @@ func init() {
 			prefix = fmt.Sprintf("%s/.drinks", homeDir)
 		}
 	default:
-		fmt.Println("Not a valid binary (must be one of `cook` or `concoct`).")
-		os.Exit(1)
+		// Doesn't matter what the prefix is if the binary is neither `cook`
+		// nor `concoct` as long as the the path exists; this likely means
+		// that we're in test mode.
+		prefix = homeDir
 	}
 
 	fileInfo, err := os.Lstat(prefix)
