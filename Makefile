@@ -4,9 +4,9 @@ binary_location="${HOME}/bin"
 bash_completion_dir ?= "${HOME}/.bash_completion.d"
 
 .PHONY: build
-build: main.go search.go validate.go parser.go create.go list.go util.go
-	go build -ldflags "-X main.version=$(version)" -o cook main.go search.go validate.go parser.go create.go list.go util.go
-	go build -ldflags "-X main.version=$(version)" -o concoct main.go search.go validate.go parser.go create.go list.go util.go
+build: main.go search.go validate.go parser.go create.go list.go util.go display.go
+	go build -ldflags "-X main.version=$(version)" -o cook main.go search.go validate.go parser.go create.go list.go util.go display.go
+	go build -ldflags "-X main.version=$(version)" -o concoct main.go search.go validate.go parser.go create.go list.go util.go display.go
 
 .PHONY: local
 local: build
