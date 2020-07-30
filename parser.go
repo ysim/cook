@@ -103,7 +103,7 @@ func ParseHTML(htmlBytes []byte) ([]string, error) {
 }
 
 func RenderMarkdown(mdBytes []byte) error {
-	htmlBytes := blackfriday.MarkdownBasic(mdBytes)
+	htmlBytes := blackfriday.Run(mdBytes)
 	outputSlice, err := ParseHTML(htmlBytes)
 	if err.Error() != "EOF" {
 		return err
