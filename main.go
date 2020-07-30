@@ -136,8 +136,8 @@ func GetBasenameWithoutExt(fullFilepath string) string {
 func DisplayRecipe(fullFilepath string) {
 	recipeFile, err := ParseFile(fullFilepath)
 	if err != nil {
-		fmt.Printf("Unable to read file: %s\n", fullFilepath)
-		os.Exit(1)
+		errorMsg := fmt.Sprintf("Unable to read file: %s\n", fullFilepath)
+		log.Fatal(errorMsg)
 	}
 	RenderMarkdown(recipeFile.Markdown)
 }
@@ -176,14 +176,14 @@ func init() {
 
 	fileInfo, err := os.Lstat(prefix)
 	if err != nil {
-		fmt.Printf("There was an error getting file info for: %s\n", prefix)
-		os.Exit(1)
+		errorMsg := fmt.Sprintf("There was an error getting file info for the prefix: %s\n", prefix)
+		log.Fatal(errorMsg)
 	}
 	if fileInfo.Mode()&os.ModeSymlink != 0 {
 		prefix, err = os.Readlink(prefix)
 		if err != nil {
-			fmt.Printf("Unable to read symlink: %s\n", prefix)
-			os.Exit(1)
+			errorMsg := fmt.Sprintf("Unable to read symlink: %s\n", prefix)
+			log.Fatal(errorMsg)
 		}
 	}
 	suffix = os.Getenv("COOK_RECIPES_EXT")

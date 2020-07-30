@@ -154,8 +154,8 @@ func ParseSearchQuery(args []string) (map[string]Constraint, error) {
 func Search(args []string) {
 	parsedQuery, parseErr := ParseSearchQuery(args)
 	if parseErr != nil {
-		fmt.Printf("Invalid search query: %s\n", parseErr.Error())
-		os.Exit(1)
+		errMsg := fmt.Sprintf("Invalid search query: %s\n", parseErr.Error())
+		log.Fatal(errMsg)
 	}
 
 	w := walk{prefix: prefix, searchArgs: parsedQuery}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
 	"text/template"
@@ -55,8 +56,8 @@ func validateFields(fieldFlags []string) (map[string]interface{}, error) {
 
 func validateNewRecipe(filename string) string {
 	if filename == "" {
-		fmt.Println("You must provide at least a filename in order to create a new recipe.")
-		os.Exit(1)
+		errMsg := "You must provide at least a filename in order to create a new recipe."
+		log.Fatal(errMsg)
 	}
 
 	if strings.HasSuffix(filename, suffix) {
@@ -70,8 +71,8 @@ func validateNewRecipe(filename string) string {
 	// error if the file exists, so os.IsExist would receive a nil value for err.
 	// So, an os.IsExist(err) block would never execute for a file that exists.
 	if !os.IsNotExist(err) {
-		fmt.Printf("There already exists a file at the path: %s\n", filepath)
-		os.Exit(1)
+		errMsg := fmt.Sprintf("There already exists a file at the path: %s\n", filepath)
+		log.Fatal(errMsg)
 	}
 	return filepath
 }
@@ -95,13 +96,11 @@ func writeNewRecipeFile(filepath string, name string, fields map[string]interfac
 
 	tpl, err := template.New("newrecipe").Parse(newRecipeTemplate)
 	if err != nil {
-		fmt.Println("Error parsing recipe template.")
-		os.Exit(1)
+		log.Fatal("Error parsing recipe template.")
 	}
 	err = tpl.Execute(f, recipeVariables)
 	if err != nil {
-		fmt.Println("Error executing template.")
-		os.Exit(1)
+		log.Fatal("Error executing template.")
 	}
 }
 
@@ -113,8 +112,7 @@ func CreateNewRecipe(filename string, name string, fieldFlags []string) {
 	if len(fieldFlags) > 0 {
 		validatedFields, validateFieldsErr = validateFields(fieldFlags)
 		if validateFieldsErr != nil {
-			fmt.Println("An error occurred while validating the new recipe fields.")
-			os.Exit(1)
+			log.Fatal("An error occurred while validating the new recipe fields.")
 		}
 	}
 
