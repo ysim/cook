@@ -31,7 +31,7 @@ type RecipeFile struct {
 
 func PrintUsageString() {
 	s := `Usage:
-    cook [recipe]
+    cook [recipe] [-meta]
     cook edit [recipe]
     cook list [-key=KEY]
     cook new -filename=FILENAME
