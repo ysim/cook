@@ -2,6 +2,7 @@ v0.3.0 (xxxx-xx-xx)
 
 * Introduction of `list -key=...` subcommand that lists values for a given key. (#23)
 * Introduction of `list` subcommand (no flags) that lists keys. (#21)
+* New -meta flag that lists front matter when displaying a recipe (#24)
 
 v0.2.0 (2020-04-17)
 
