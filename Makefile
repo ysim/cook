@@ -1,12 +1,12 @@
-version=v0.2.0
+version=v0.3.0
 binary_tarball="cook-$(version).tar.gz"
 binary_location="${HOME}/bin"
 bash_completion_dir ?= "${HOME}/.bash_completion.d"
 
 .PHONY: build
-build: main.go search.go validate.go parser.go create.go list.go util.go
-	go build -ldflags "-X main.version=$(version)" -o cook main.go search.go validate.go parser.go create.go list.go util.go
-	go build -ldflags "-X main.version=$(version)" -o concoct main.go search.go validate.go parser.go create.go list.go util.go
+build: main.go search.go validate.go parser.go create.go list.go util.go display.go
+	go build -ldflags "-X main.version=$(version)" -o cook $^
+	go build -ldflags "-X main.version=$(version)" -o concoct $^
 
 .PHONY: local
 local: build

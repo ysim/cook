@@ -98,9 +98,11 @@ should look something like this:
 
 ### View a recipe
 
-    cook [recipe name]
+    cook [recipe name] [-meta]
 
 This will print the recipe to the screen with some light styling.
+
+The `-meta` flag will print the recipe's front matter.
 
 ### Create a new recipe
 
