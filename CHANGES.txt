@@ -1,4 +1,4 @@
-v0.3.0 (xxxx-xx-xx)
+v0.3.0 (2020-10-20)
 
 * Introduction of `list -key=...` subcommand that lists values for a given key. (#23)
 * Introduction of `list` subcommand (no flags) that lists keys. (#21)
