@@ -52,7 +52,7 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 	var rfm map[string]interface{}
 	err := yaml.Unmarshal([]byte(fmBytes), &rfm)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprintf("Error while unmarshalling yaml: %s", err))
 	}
 
 	// Now make a type assertion into map[string][]string to make querying
