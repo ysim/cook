@@ -71,7 +71,12 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 			coercedArray := v.([]interface{})
 			vArray := make([]string, len(coercedArray))
 			for _, item := range coercedArray {
-				vArray = append(vArray, item.(string))
+				switch item.(type) {
+				case string:
+					vArray = append(vArray, item.(string))
+				default:
+					return nil, errors.New(fmt.Sprintf("Was not able to process item of type %T in an array. This file's front matter was not parsed further.", item))
+				}
 			}
 			// Get a new slice with the empty strings removed
 			fm[k] = CleanFields(vArray)
