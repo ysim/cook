@@ -54,7 +54,7 @@ func (w walk) WalkFrontMatter(f func(fmwalk), params ...interface{}) error {
 			if err != nil {
 				log.WithFields(log.Fields{
 					"file": fullFilepath,
-				}).Warn("Unknown type detected in front matter")
+				}).Warn(fmt.Sprintf("An error occurred while parsing front matter: %s", err.Error()))
 			}
 
 			fmwalkData := fmwalk{fm: frontMatter, fullFilepath: fullFilepath}

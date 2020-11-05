@@ -52,7 +52,7 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 	var rfm map[string]interface{}
 	err := yaml.Unmarshal([]byte(fmBytes), &rfm)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprintf("Error while unmarshalling yaml: %s", err))
 	}
 
 	// Now make a type assertion into map[string][]string to make querying
@@ -71,7 +71,12 @@ func ParseFrontMatter(fmBytes []byte) (map[string][]string, error) {
 			coercedArray := v.([]interface{})
 			vArray := make([]string, len(coercedArray))
 			for _, item := range coercedArray {
-				vArray = append(vArray, item.(string))
+				switch item.(type) {
+				case string:
+					vArray = append(vArray, item.(string))
+				default:
+					return nil, errors.New(fmt.Sprintf("Was not able to process item of type %T in an array. This file's front matter was not parsed further.", item))
+				}
 			}
 			// Get a new slice with the empty strings removed
 			fm[k] = CleanFields(vArray)
@@ -185,7 +190,7 @@ func init() {
 	// Log levels
 	log.SetFormatter(&log.TextFormatter{PadLevelText: true})
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.FatalLevel)
+	log.SetLevel(log.WarnLevel)
 }
 
 type flagArray []string
