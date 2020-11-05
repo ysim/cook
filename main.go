@@ -190,7 +190,7 @@ func init() {
 	// Log levels
 	log.SetFormatter(&log.TextFormatter{PadLevelText: true})
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.FatalLevel)
+	log.SetLevel(log.WarnLevel)
 }
 
 type flagArray []string
