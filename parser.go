@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 	"golang.org/x/net/html"
 	"strings"
 )
