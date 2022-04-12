@@ -1,4 +1,4 @@
-v0.4.0 (xxxx-xx-xx)
+v0.4.0 (2022-04-11)
 
 * Improve error handling for front matter parsing. (#47)
 * Migrate from go dep to go modules. (#54)
