@@ -12,7 +12,7 @@ const (
 	keyValueDelimiter = "="
 	openBracket = "["
 	closeBracket = "]"
-	newRecipeTemplate = "---\nname: {{.Name}}{{range .Fields}}\n{{.Key}}: {{.Value}}{{end}}\n---\n# {{.Name}}\n\n## INGREDIENTS\n\n## INSTRUCTIONS\n\n---\nSource:\n"
+	newRecipeTemplate = "---\nname: {{.Name}}{{range .Fields}}\n{{.Key}}: {{.Value}}{{end}}\nsource: [\"\"]\n---\n# {{.Name}}\n\n## INGREDIENTS\n\n## INSTRUCTIONS\n"
 )
 
 type RecipeField struct {
