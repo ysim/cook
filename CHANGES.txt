@@ -1,3 +1,7 @@
+v0.5.0 (xxxx-xx-xx)
+
+* Update default new recipe template to have source field in the front matter. (#50)
+
 v0.4.0 (2022-04-11)
 
 * Improve error handling for front matter parsing. (#47)

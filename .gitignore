@@ -4,4 +4,4 @@ concoct
 
 *.tar.gz
 
-vendor/
+release/

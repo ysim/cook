@@ -2,27 +2,28 @@ package main
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
 	"text/template"
+
+	log "github.com/sirupsen/logrus"
 )
 
 const (
 	keyValueDelimiter = "="
-	openBracket = "["
-	closeBracket = "]"
-	newRecipeTemplate = "---\nname: {{.Name}}{{range .Fields}}\n{{.Key}}: {{.Value}}{{end}}\n---\n# {{.Name}}\n\n## INGREDIENTS\n\n## INSTRUCTIONS\n\n---\nSource:\n"
+	openBracket       = "["
+	closeBracket      = "]"
+	newRecipeTemplate = "---\nname: {{.Name}}{{range .Fields}}\n{{.Key}}: {{.Value}}{{end}}\nsource: [\"\"]\n---\n# {{.Name}}\n\n## INGREDIENTS\n\n## INSTRUCTIONS\n"
 )
 
 type RecipeField struct {
-	Key		string
-	Value	string
+	Key   string
+	Value string
 }
 
 type RecipeSkeleton struct {
-	Name			string
-	Fields		[]RecipeField
+	Name   string
+	Fields []RecipeField
 }
 
 func validateFieldValue(value string) string {
@@ -84,7 +85,7 @@ func writeNewRecipeFile(filepath string, name string, fields map[string]interfac
 	}
 
 	recipeVariables := RecipeSkeleton{
-		Name: name,
+		Name:   name,
 		Fields: recipeFields,
 	}
 
