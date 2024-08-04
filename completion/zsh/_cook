@@ -1,0 +1,20 @@
+#compdef cook
+
+_cook_complete_filenames () {
+    local prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
+    local suffix="${COOK_RECIPES_EXT:-.md}"
+
+    _values -C 'recipes' ${$(find "${prefix}" -name "*${suffix}" -execdir sh -c 'printf "%-60s" "${0%.*}"' {} ';')}
+}
+
+_cook () {
+    local -a subcommands
+    subcommands=(
+        "edit:Edit a recipe"
+        "search:Search tags"
+        "validate:Validate recipe formatting"
+        "version:Output version information"
+    )
+    _describe -t commands 'cook' subcommands
+    _cook_complete_filenames
+}
