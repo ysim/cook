@@ -15,9 +15,9 @@ local: build
 
 .PHONY: install-bash-completion
 install-bash-completion:
-	@install -v completion/bash_completion "${HOME}/.bash_completion"
+	@install -v completion/bash/bash_completion "${HOME}/.bash_completion"
 	@install -v -d "$(bash_completion_dir)" && \
-		install -m 0644 -v completion/cook.bash-completion "$(bash_completion_dir)/cook.bash-completion"
+		install -m 0644 -v completion/bash/cook.bash-completion "$(bash_completion_dir)/cook.bash-completion"
 
 .PHONY: release-darwin
 release-darwin:
