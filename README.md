@@ -51,11 +51,7 @@ Build from source:
 
 1. Clone this repo.
 
-1. Download and install [Go](https://golang.org/).
-
-1. Download and install [dep](https://github.com/golang/dep/releases).
-
-1. Run `dep ensure` to populate `vendor/` with dependencies.
+1. Download and install [Go](https://golang.org/) 1.18.
 
 1. Build the binary:
 
