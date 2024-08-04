@@ -1,4 +1,4 @@
-version=v0.4.0
+version=v0.5.0
 binary_tarball="cook-$(version).tar.gz"
 binary_location="${HOME}/bin"
 bash_completion_dir ?= "${HOME}/.bash_completion.d"
