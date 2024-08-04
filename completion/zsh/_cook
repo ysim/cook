@@ -1,7 +1,15 @@
 #compdef cook
 
 _cook_complete_filenames () {
-    local prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
+    local binary="${words[1]}"
+    if [[ "$binary" = "cook" ]] ; then
+        local prefix="${COOK_RECIPES_DIR:-$HOME/.recipes/}"
+    elif [[ "$binary" = "concoct" ]] ; then
+        local prefix="${CONCOCT_RECIPES_DIR:-$HOME/.drinks/}"
+    else
+        echo "Unknown binary: ${binary}"
+        exit 1
+    fi
     local suffix="${COOK_RECIPES_EXT:-.md}"
 
     _values -C 'recipes' ${$(find "${prefix}" -name "*${suffix}" -execdir sh -c 'printf "%-60s" "${0%.*}"' {} ';')}
